@@ -1,17 +1,10 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { getErrorResponse, getSuccessResponse } from "../utils/responseUtil";
 
-export const hello = async (
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: "Go Serverless v3.0! Your function executed successfully!",
-        input: event,
-      },
-      null,
-      2
-    ),
-  };
+export const hello = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  try {
+    return getSuccessResponse({ status: "SUCCESS" });
+  } catch (error) {
+    return getErrorResponse(error.message);
+  }
 };
