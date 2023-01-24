@@ -1,0 +1,20 @@
+org: dilshaniit
+app: sleek-style
+service: suggestion-selector
+frameworkVersion: '3'
+
+plugins:
+  - serverless-plugin-typescript
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: ap-southeast-1
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
