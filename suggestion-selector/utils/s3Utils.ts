@@ -17,6 +17,7 @@ export async function getSignedUrl(
     ) {
         console.log("bucket :", bucket, "key :", key, "method :", method, "contentType :", contentType, "versionId :", versionId, "expires :", expires);
         const s3 = new AWS.S3();
+        console.log("s3: ", s3);
         var params: any = {
             Bucket: bucket,
             Key: key,
@@ -29,7 +30,7 @@ export async function getSignedUrl(
             params.VersionId = versionId;
         }
         console.log('params :', params);
-        await s3.getSignedUrl(method, params);
+        return await s3.getSignedUrl(method, params);
 }
 
 export const copyFile = async (fromBucket, fromKey, toBucket, tokey) => {
