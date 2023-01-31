@@ -32,7 +32,7 @@ functions:
     events:
       - http:
           path: suggestion-selector/upload-user-image
-          method: get
+          method: put
           cors: true
     iamRoleStatementsName: ${self:app}-${self:service}-upload-user-image
     iamRoleStatements:
