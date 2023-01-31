@@ -20,7 +20,7 @@ export async function getSignedUrl(
         console.log("bucket :", bucket, "key :", key, "method :", method, "contentType :", contentType, "versionId :", versionId, "expires :", expires, "region :", process.env.AWS_REGION);
 
         // const s3 = new AWS.S3();
-        const s3 = new S3Client(process.env.AWS_REGION);
+        const s3 = new S3Client("ap-southeast-1");
         console.log("s3: ", s3);
         var params: any = {
             Bucket: bucket,
@@ -33,7 +33,7 @@ export async function getSignedUrl(
         if (versionId) {
             params.VersionId = versionId;
         }
-        
+
         console.log('params :', params);
         const putObject = new PutObjectCommand(params);
         return await s3.send(putObject);
