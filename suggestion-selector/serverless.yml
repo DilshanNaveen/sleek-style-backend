@@ -41,7 +41,7 @@ functions:
           path: suggestion-selector/upload-user-image
           method: get
           cors: true
-    iamRoleStatementsName: ${self:service}-upload-user-image-${opt:stage}
+    iamRoleStatementsName: ${self:app}-${self:service}-upload-user-image
     iamRoleStatements:
       - Effect: "Allow"
         Action:
