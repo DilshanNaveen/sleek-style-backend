@@ -10,7 +10,6 @@ export const get = async (event: APIGatewayProxyEvent | any): Promise<APIGateway
     const file = Buffer.from(event.body, "base64");
     
     console.log("file :", file);
-    console.log("fileType :", fileType);
     const url = await getSignedUrl(process.env.S3_BUCKET_USER_DATA, key, method, contentType);
     await axios.put(url, file);
     return getSuccessResponse({ body: { url } });
