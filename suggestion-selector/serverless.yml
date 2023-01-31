@@ -31,7 +31,7 @@ functions:
   upload-user-image:
     handler: uploadUserImage.get
     events:
-      - httpApi:
+      - http:
           path: suggestion-selector/upload-user-image
           method: get
           cors: true

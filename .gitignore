@@ -4,3 +4,4 @@ jspm_packages
 
 # Serverless directories
 .serverless
+suggestion-selector/package-lock.json
