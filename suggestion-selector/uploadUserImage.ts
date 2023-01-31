@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
 import { S3_METHODS } from "./utils/s3Utils";
 
-const AWS = require('aws-sdk');
+import AWS from 'aws-sdk';
 
 
 export const get = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
