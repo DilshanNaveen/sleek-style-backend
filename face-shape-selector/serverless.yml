@@ -1,7 +1,7 @@
+org: dilshaniit
+app: sleek-style
 service: face-shape-selector
-
-frameworkVersion: '2'
-
+frameworkVersion: '3'
 
 provider:
   name: aws

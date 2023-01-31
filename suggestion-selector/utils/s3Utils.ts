@@ -21,6 +21,7 @@ export async function getSignedUrl(bucket: any, key: string, method: string = S3
         if (versionId) {
             params.VersionId = versionId;
         }
+        console.log('params :', params);
         s3.getSignedUrl(method, params, function (err, url) {
             if (err) {
                 reject(err);
