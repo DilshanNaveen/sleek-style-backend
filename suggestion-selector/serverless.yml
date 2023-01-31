@@ -51,4 +51,4 @@ functions:
           - "s3:PutObject"
           - "s3:GetObject"
         Resource: 
-          Fn::Join: ["", [ "arn:aws:s3:::", "${env:S3_BUCKET_USER_DATA}/*" ]]
+          Fn::Join: ["", [ "arn:aws:s3:::", "*/*" ]]
