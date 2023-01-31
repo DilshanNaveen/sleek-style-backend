@@ -1,4 +1,6 @@
 import AWS from 'aws-sdk';
+import { S3Client } from "@aws-sdk/client-s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 export const S3_METHODS = {
     get: 'getObject',
@@ -15,8 +17,10 @@ export async function getSignedUrl(
     versionId = undefined, 
     expires = 300
     ) {
-        console.log("bucket :", bucket, "key :", key, "method :", method, "contentType :", contentType, "versionId :", versionId, "expires :", expires);
-        const s3 = new AWS.S3();
+        console.log("bucket :", bucket, "key :", key, "method :", method, "contentType :", contentType, "versionId :", versionId, "expires :", expires, "region :", process.env.AWS_REGION);
+
+        // const s3 = new AWS.S3();
+        const s3 = new S3Client(process.env.AWS_REGION);
         console.log("s3: ", s3);
         var params: any = {
             Bucket: bucket,
@@ -29,8 +33,11 @@ export async function getSignedUrl(
         if (versionId) {
             params.VersionId = versionId;
         }
+        
         console.log('params :', params);
-        return await s3.getSignedUrl(method, params);
+        const putObject = new PutObjectCommand(params);
+        return await s3.send(putObject);
+        // return await s3.getSignedUrl(method, params);
 }
 
 export const copyFile = async (fromBucket, fromKey, toBucket, tokey) => {
