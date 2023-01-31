@@ -17,14 +17,17 @@ plugins:
   # - serverless-dotenv-plugin
   # - serverless-iam-roles-per-function
 
-env:
-  S3_BUCKET_HAIRSTYLE_SUGGESTIONS: ${{ vars.S3_BUCKET_HAIRSTYLE_SUGGESTIONS }}
-  S3_BUCKET_USER_DATA: ${{ vars.S3_BUCKET_USER_DATA }}
+# env:
+#   S3_BUCKET_HAIRSTYLE_SUGGESTIONS: ${{ vars.S3_BUCKET_HAIRSTYLE_SUGGESTIONS }}
+#   S3_BUCKET_USER_DATA: ${{ vars.S3_BUCKET_USER_DATA }}
 
 provider:
   name: aws
   runtime: nodejs16.x
   region: ap-southeast-1
+  environment:
+    S3_BUCKET_HAIRSTYLE_SUGGESTIONS: ${{ vars.S3_BUCKET_HAIRSTYLE_SUGGESTIONS }}
+    S3_BUCKET_USER_DATA: ${{ vars.S3_BUCKET_USER_DATA }}
 
 functions:
   hello:
