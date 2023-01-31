@@ -3,8 +3,23 @@ app: sleek-style
 service: suggestion-selector
 frameworkVersion: '3'
 
+# custom:
+#   dotenv:
+#     basePath: ./
+
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
+
 plugins:
   - serverless-plugin-typescript
+  # - serverless-dotenv-plugin
+  # - serverless-iam-roles-per-function
+
+env:
+  S3_BUCKET_HAIRSTYLE_SUGGESTIONS: ${{ vars.S3_BUCKET_HAIRSTYLE_SUGGESTIONS }}
+  S3_BUCKET_USER_DATA: ${{ vars.S3_BUCKET_USER_DATA }}
 
 provider:
   name: aws
@@ -18,3 +33,19 @@ functions:
       - httpApi:
           path: /
           method: get
+
+  upload-user-image:
+    handler: uploadUserImage.get
+    events:
+      - httpApi:
+          path: suggestion-selector/upload-user-image
+          method: get
+          cors: true
+    iamRoleStatementsName: ${self:service}-upload-user-image-${opt:stage}
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "s3:PutObject"
+          - "s3:GetObject"
+        Resource: 
+          Fn::Join: ["", [ "arn:aws:s3:::", "${env:S3_BUCKET_USER_DATA}/*" ]]

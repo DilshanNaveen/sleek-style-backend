@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import { getErrorResponse, getSuccessResponse } from "../utils/responseUtil";
+import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
 
 export const hello = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
