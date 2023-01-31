@@ -6,7 +6,7 @@ export const get = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyR
   try {
     const { key, contentType = undefined, method = S3_METHODS.get }: any = event.queryStringParameters;
     const body = event;
-    console.log("body: ", body);
+    console.log("body = ", body);
     const url = await getSignedUrl(process.env.S3_BUCKET_USER_DATA, key, method, contentType);
     return getSuccessResponse({ body: { url } });
   } catch (error) {
