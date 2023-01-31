@@ -1,7 +1,7 @@
+import axios from "axios";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
 import { S3_METHODS, getSignedUrl } from "./utils/s3Utils";
-import axios from "axios";
 // const axios = require("axios");
 
 export const get = async (event: APIGatewayProxyEvent | any): Promise<APIGatewayProxyResult> => {
