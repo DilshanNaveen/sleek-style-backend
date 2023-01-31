@@ -9,6 +9,7 @@
     "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
     "magic-number": "^0.1.6",
+    "node-fetch": "^3.3.0",
     "serverless-dotenv-plugin": "^4.0.2",
     "serverless-iam-roles-per-function": "^3.2.0",
     "ulid": "^2.3.0"
