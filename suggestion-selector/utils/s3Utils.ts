@@ -7,8 +7,15 @@ export const S3_METHODS = {
 
 export const getS3Method = (m) => S3_METHODS[m];
 
-export async function getSignedUrl(bucket: any, key: string, method: string = S3_METHODS.get, contentType = undefined, versionId = undefined, expires = 300) {
-    return new Promise((resolve, reject) => {
+export async function getSignedUrl(
+    bucket: any, 
+    key: string, 
+    method: string = S3_METHODS.get, 
+    contentType = undefined, 
+    versionId = undefined, 
+    expires = 300
+    ) {
+        console.log("bucket :", bucket, "key :", key, "method :", method, "contentType :", contentType, "versionId :", versionId, "expires :", expires);
         const s3 = new AWS.S3();
         var params: any = {
             Bucket: bucket,
@@ -22,15 +29,7 @@ export async function getSignedUrl(bucket: any, key: string, method: string = S3
             params.VersionId = versionId;
         }
         console.log('params :', params);
-        s3.getSignedUrl(method, params, function (err, url) {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve(url);
-            }
-        });
-    });
+        await s3.getSignedUrl(method, params);
 }
 
 export const copyFile = async (fromBucket, fromKey, toBucket, tokey) => {
