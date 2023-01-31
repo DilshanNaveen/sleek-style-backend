@@ -1,7 +1,8 @@
-import fetch from "node-fetch";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
 import { S3_METHODS, getSignedUrl } from "./utils/s3Utils";
+
+const fetch = require('node-fetch');
 
 export const get = async (event: APIGatewayProxyEvent | any): Promise<APIGatewayProxyResult> => {
   try {
