@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
 import { S3_METHODS, getSignedUrl } from "./utils/s3Utils";
 
-const axios = require("axios");
+// const axios = require("axios");
 const magic = require("magic-number");
 
 export const get = async (event: APIGatewayProxyEvent | any): Promise<APIGatewayProxyResult> => {
@@ -15,7 +15,7 @@ export const get = async (event: APIGatewayProxyEvent | any): Promise<APIGateway
     console.log("file :", file);
     console.log("fileType :", fileType);
     const url = await getSignedUrl(process.env.S3_BUCKET_USER_DATA, key, method, contentType);
-    await axios.put(url, file);
+    // await axios.put(url, file);
     return getSuccessResponse({ body: { url } });
   } catch (error) {
     return getErrorResponse(error.message);
