@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk';
+const AWS = require('aws-sdk');
 
 export const S3_METHODS = {
     get: 'getObject',
@@ -15,9 +15,7 @@ export async function getSignedUrl(
     versionId = undefined, 
     expires = 300
     ) {
-        console.log("bucket :", bucket, "key :", key, "method :", method, "contentType :", contentType, "versionId :", versionId, "expires :", expires);
         const s3 = new AWS.S3();
-        console.log("s3: ", s3);
         var params: any = {
             Bucket: bucket,
             Key: key,
