@@ -23,10 +23,19 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install
       working-directory: ./suggestion-selector
-    - name: serverless deploy
+    - name: serverless deploy suggestion selector
       uses: serverless/github-action@v3.1
       with:
-        args: -c "cd ./suggestion-selector && serverless deploy"
+        args: -c "cd ./suggestion-selector && serverless deploy -s prod -r ap-southeast-1"
+        entrypoint: /bin/sh
+      env:
+        SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: serverless deploy face shape selector
+      uses: serverless/github-action@v3.1
+      with:
+        args: -c "cd ./face-shape-selector && serverless deploy -s prod -r ap-southeast-1"
         entrypoint: /bin/sh
       env:
         SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
