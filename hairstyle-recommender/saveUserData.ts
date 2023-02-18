@@ -6,8 +6,9 @@ import { dynamoDBPutItem } from './utils/dbUtils';
 import { getUUID } from './utils/userUtil';
 
 const saveUserData = async (customizationSettings: CustomizationSettings) => {
+  const id = await getUUID();
   const payload: UserData = {
-    id: await getUUID(),
+    id: id,
     date: new Date(),
     status: UserDataStatus.WAITING_FOR_IMAGE,
     customizationSettings: customizationSettings,

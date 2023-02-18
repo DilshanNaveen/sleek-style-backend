@@ -36,3 +36,29 @@ functions:
           - "s3:GetObject"
         Resource: 
           Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_USER_DATA}/*" ]]
+      - Effect: "Allow"
+        Action:
+          - dynamodb:PutItem
+        Resource: 
+          Fn::Join: [ "", [ "arn:aws:dynamodb:", { Ref: "AWS::Region" }, ':', { Ref: "AWS::AccountId" }, ":table/${env:DYNAMODB_TABLE_USER_DATA}" ] ]
+  
+  get-hair-style-suggestions:
+    handler: getHairStyleSuggestions.get
+    events:
+      - http:
+          path: /get-hair-style-suggestions
+          method: get
+    iamRoleStatementsName: ${self:app}-${self:service}-get-hair-style-suggestions
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "s3:PutObject"
+          - "s3:GetObject"
+        Resource: 
+          Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_USER_DATA}/*" ]]
+      - Effect: "Allow"
+        Action:
+          - dynamodb:PutItem
+          - dynamodb:GetItem
+        Resource: 
+          Fn::Join: [ "", [ "arn:aws:dynamodb:", { Ref: "AWS::Region" }, ':', { Ref: "AWS::AccountId" }, ":table/${env:DYNAMODB_TABLE_USER_DATA}" ] ]
