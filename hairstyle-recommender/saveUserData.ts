@@ -5,12 +5,12 @@ import { Handler } from "aws-lambda";
 import { dynamoDBPutItem } from './utils/dbUtils';
 const { v4: uuidv4 } = require('uuid');
 
-const saveUserData = async (customizationSettings: CustomizationSettings) => {
-  const id = uuidv4();
+const saveUserData = async (id: string, fileName: string, customizationSettings: CustomizationSettings) => {
   console.log('id :', id);
   const payload: UserData = {
     id: id,
     date: new Date().toISOString(),
+    image: fileName,
     status: UserDataStatus.WAITING_FOR_IMAGE,
     customizationSettings: customizationSettings,
     lastModifiedDate: new Date().toISOString()
@@ -21,10 +21,12 @@ const saveUserData = async (customizationSettings: CustomizationSettings) => {
 
 export const post: Handler = async (event: any) => {
   try {
-    const { key, contentType }: any = event.queryStringParameters;
+    const { contentType }: any = event.queryStringParameters;
     const eventBody: CustomizationSettings = JSON.parse(event.body);
-    const url = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, key, S3_METHODS.put, contentType);
-    const id = await saveUserData(eventBody);
+    const id = uuidv4();
+    const fileName = `${id}.${contentType.split('/')[1]}`;
+    const url = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, fileName, S3_METHODS.put, contentType);
+    await saveUserData(id, fileName, eventBody);
     return getSuccessResponse({ body: { url, id } });
   } catch (error) {
     console.log('error :', error);
