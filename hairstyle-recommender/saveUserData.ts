@@ -1,13 +1,29 @@
+import { UserData, CustomizationSettings, UserDataStatus } from "./types/userData";
 import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
 import { getPreSignedUrl, S3_METHODS } from "./utils/s3Utils";
 import { Handler } from "aws-lambda";
+import { ulid } from 'ulid'
+import { dynamoDBPutItem } from './utils/dbUtils';
+
+const saveUserData = async (customizationSettings: CustomizationSettings) => {
+  const payload: UserData = {
+    id: ulid(),
+    date: new Date(),
+    status: UserDataStatus.WAITING_FOR_IMAGE,
+    customizationSettings: customizationSettings,
+    lastModifiedDate: new Date()
+  }
+  await dynamoDBPutItem(process.env.DYNAMODB_TABLE_USER_DATA, payload);
+  return payload.id;
+}
 
 export const post: Handler = async (event: any) => {
   try {
     const { key, contentType }: any = event.queryStringParameters;
+    const eventBody: CustomizationSettings = JSON.parse(event.body);
     const url = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, key, S3_METHODS.put, contentType);
-    console.log("url :", url);
-    return getSuccessResponse({ body: url });
+    const id = await saveUserData(eventBody);
+    return getSuccessResponse({ body: { url, id } });
   } catch (error) {
     console.log('error :', error);
     getErrorResponse(error.message);

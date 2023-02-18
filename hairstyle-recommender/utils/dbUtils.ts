@@ -1,13 +1,14 @@
-import AWS from 'aws-sdk';
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+import { PutCommand, UpdateCommand, DeleteCommand, GetCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 export const dynamoDBPutItem = async (tableName, item) => {
-    const docClient = new AWS.DynamoDB.DocumentClient();
+    const docClient = new DynamoDBClient();
     const params = {
         Item: item,
         TableName: tableName
     };
     console.log({ params });
-    await docClient.put(params).promise();
+    return await docClient.send(new PutCommand(params))
 };
 
 export const dynamoDBQuery = async (tableName, partitionKeyName, partitionKeyVal, {
@@ -43,20 +44,20 @@ export const dynamoDBQuery = async (tableName, partitionKeyName, partitionKeyVal
 
 export const dynamoDBQueryWithParams = async (params, fetchAll, returnLastEvaluatedKey) => {
     console.log(params);
-    const docClient = new AWS.DynamoDB.DocumentClient();
+    const docClient = new DynamoDBClient();
     let data: any = await docClient.query(params).promise();
     let items: any = data.Items;
     if (!fetchAll) return returnLastEvaluatedKey ? { items: data.Items, lastEvaluatedKey: data.LastEvaluatedKey } : data.Items;
     while (data.LastEvaluatedKey) {
         params.ExclusiveStartKey = data.LastEvaluatedKey;
-        data = await docClient.query(params).promise();
+        data =  await docClient.send(new QueryCommand(params));
         items.push(...data.Items);
     }
     return items;
 };
 
 export const dynamoDBGetItem = async (tableName, partitionKeyName, partitionKeyVal, sortKeyName = undefined, sortKeyVal = undefined, requiredAttributes: any = undefined, indexName) => {
-    var docClient = new AWS.DynamoDB.DocumentClient();
+    const docClient = new DynamoDBClient();
     let params: any = {
         TableName: tableName,
         Key: {
@@ -72,12 +73,11 @@ export const dynamoDBGetItem = async (tableName, partitionKeyName, partitionKeyV
     }
     console.log({ params });
 
-    const data = await docClient.get(params).promise();
-    return data.Item;
+    return await docClient.send(new GetCommand(params));;
 };
 
 export const dynamoDeleteItem = async (tableName, partitionKeyName, partitionKeyVal, sortKeyName = undefined, sortKeyVal = undefined) => {
-    var docClient = new AWS.DynamoDB.DocumentClient();
+    const docClient = new DynamoDBClient();
     let params = {
         TableName: tableName,
         Key: {
@@ -87,57 +87,11 @@ export const dynamoDeleteItem = async (tableName, partitionKeyName, partitionKey
     };
     console.log({ params });
 
-    const data = await docClient.delete(params).promise();
-    return data;
-};
-
-export const dynamoDBScan = async (tableName, {
-    requiredAttributes = undefined,
-    expressionAttributeNames = undefined,
-    expressionAttributeValues = undefined,
-    filterExpression = undefined,
-    limit = undefined,
-    indexName = undefined,
-    fetchAll = true
-} = {}) => {
-    var docClient = new AWS.DynamoDB.DocumentClient();
-    let params: any = {
-        TableName: tableName,
-        ExpressionAttributeNames: expressionAttributeNames,
-        ExpressionAttributeValues: expressionAttributeValues
-    };
-
-    if (filterExpression) {
-        params.FilterExpression = filterExpression;
-    }
-
-    if (requiredAttributes) {
-        params.ProjectionExpression = requiredAttributes;
-    }
-
-    if (limit) {
-        params.Limit = limit;
-    }
-
-    if (indexName) {
-        params.IndexName = indexName;
-    }
-    console.log(params);
-
-    let data: any = await docClient.scan(params).promise();
-    if (!fetchAll) return data.Items;
-
-    let items = data.Items;
-    while (data.LastEvaluatedKey) {
-        params.ExclusiveStartKey = data.LastEvaluatedKey;
-        data = await docClient.scan(params).promise();
-        items.push(...data.Items);
-    }
-    return items;
+    return await docClient.send(new DeleteCommand(params));;
 };
 
 export const dynamoDBUpdateItem = async (tableName, partitionKeyName, partitionKeyVal, sortKeyName = undefined, sortKeyVal = undefined, keyValsToUpdate) => {
-    var docClient = new AWS.DynamoDB.DocumentClient();
+    const docClient = new DynamoDBClient();
     let updateExpression = '';
     const expressionAttributeNames = {};
     const expressionAttributeValues = {};
@@ -165,17 +119,16 @@ export const dynamoDBUpdateItem = async (tableName, partitionKeyName, partitionK
         ExpressionAttributeValues: expressionAttributeValues
     };
     console.log({ params });
-    const data = await docClient.update(params).promise();
-    return data;
+    return await docClient.send(new UpdateCommand(params));;
 };
 
-export const dynamoDBBatchGet = async (requestItems) => {
-    let params = {
-        RequestItems: {
-            ...requestItems
-        }
-    };
-    var docClient = new AWS.DynamoDB.DocumentClient();
-    const data = await docClient.batchGet(params).promise();
-    return data.Responses;
-};
+// export const dynamoDBBatchGet = async (requestItems) => {
+//     let params = {
+//         RequestItems: {
+//             ...requestItems
+//         }
+//     };
+//     var docClient = new AWS.DynamoDB.DocumentClient();
+//     const data = await docClient.batchGet(params).promise();
+//     return data.Responses;
+// };

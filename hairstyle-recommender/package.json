@@ -3,7 +3,9 @@
   "description": "This template demonstrates how to make a simple HTTP API with Node.js and Typescript running on AWS Lambda and API Gateway using the Serverless Framework v3",
   "version": "1.0.0",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.272.0",
     "@aws-sdk/client-s3": "^3.272.0",
+    "@aws-sdk/lib-dynamodb": "^3.272.0",
     "@aws-sdk/s3-request-presigner": "^3.272.0",
     "@types/aws-lambda": "^8.10.101",
     "form-data": "^4.0.0",
