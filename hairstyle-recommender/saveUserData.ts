@@ -7,6 +7,7 @@ import { getUUID } from './utils/userUtil';
 
 const saveUserData = async (customizationSettings: CustomizationSettings) => {
   const id = await getUUID();
+  console.log('id :', id);
   const payload: UserData = {
     id: id,
     date: new Date(),
