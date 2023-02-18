@@ -1,6 +1,6 @@
 org: dilshaniit
 app: sleek-style
-service: suggestion-selector
+service: hairstyle-recommender
 frameworkVersion: '3'
 
 package:
@@ -20,8 +20,8 @@ provider:
     S3_BUCKET_USER_DATA: ${param:S3_BUCKET_USER_DATA}
 
 functions:
-  hello:
-    handler: handler.hello
+  get-hairstyle-suggestions:
+    handler: handler.get
     events:
       - http:
           path: /
