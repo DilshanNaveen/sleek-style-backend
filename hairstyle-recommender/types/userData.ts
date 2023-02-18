@@ -35,12 +35,12 @@ export type CustomizationSettings = {
 
 export type UserData = {
     id: string,
-    date: Date,
+    date: string,
     image?: string,
     status: UserDataStatus,
     faceShape?: string,
     customizationSettings: CustomizationSettings,
     suggestedHairstyles?: string[],
     generatedHairstyle?: string[] | string,
-    lastModifiedDate: Date
+    lastModifiedDate: string
 }

@@ -3,17 +3,17 @@ import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
 import { getPreSignedUrl, S3_METHODS } from "./utils/s3Utils";
 import { Handler } from "aws-lambda";
 import { dynamoDBPutItem } from './utils/dbUtils';
-import { getUUID } from './utils/userUtil';
+const { v4: uuidv4 } = require('uuid');
 
 const saveUserData = async (customizationSettings: CustomizationSettings) => {
-  const id = await getUUID();
+  const id = uuidv4();
   console.log('id :', id);
   const payload: UserData = {
     id: id,
-    date: new Date(),
+    date: new Date().toISOString(),
     status: UserDataStatus.WAITING_FOR_IMAGE,
     customizationSettings: customizationSettings,
-    lastModifiedDate: new Date()
+    lastModifiedDate: new Date().toISOString()
   }
   await dynamoDBPutItem(process.env.DYNAMODB_TABLE_USER_DATA, payload);
   return payload.id;

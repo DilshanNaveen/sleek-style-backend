@@ -9,9 +9,14 @@ package:
     - venv/**
 
 plugins:
-  - serverless-plugin-typescript
   - serverless-iam-roles-per-function
-  - serverless-openapi-documentation
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    packager: 'npm'
+    includeModules: true
 
 provider:
   name: aws
