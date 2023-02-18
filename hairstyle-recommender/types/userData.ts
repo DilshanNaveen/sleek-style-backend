@@ -7,8 +7,8 @@ export enum UserDataStatus {
 }
 
 export enum Gender {
-    MALE,
-    FEMALE
+    MALE = "Male",
+    FEMALE = "Female"
 }
 
 export enum HairColor {

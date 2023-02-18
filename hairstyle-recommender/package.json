@@ -18,9 +18,9 @@
     "serverless-offline": "^9.1.6",
     "serverless-plugin-typescript": "^2.1.2",
     "typescript": "^4.7.4",
-    "ulid": "^2.3.0"
   },
   "devDependencies": {
-    "@types/node": "^18.14.0"
+    "@types/node": "^18.14.0",
+    "serverless-openapi-documentation": "^0.4.0"
   }
 }

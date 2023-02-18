@@ -11,6 +11,7 @@ package:
 plugins:
   - serverless-plugin-typescript
   - serverless-iam-roles-per-function
+  - serverless-openapi-documentation
 
 provider:
   name: aws

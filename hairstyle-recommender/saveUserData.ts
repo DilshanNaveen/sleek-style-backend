@@ -2,12 +2,12 @@ import { UserData, CustomizationSettings, UserDataStatus } from "./types/userDat
 import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
 import { getPreSignedUrl, S3_METHODS } from "./utils/s3Utils";
 import { Handler } from "aws-lambda";
-import { ulid } from 'ulid'
 import { dynamoDBPutItem } from './utils/dbUtils';
+import { getUUID } from './utils/userUtil';
 
 const saveUserData = async (customizationSettings: CustomizationSettings) => {
   const payload: UserData = {
-    id: ulid(),
+    id: await getUUID(),
     date: new Date(),
     status: UserDataStatus.WAITING_FOR_IMAGE,
     customizationSettings: customizationSettings,
