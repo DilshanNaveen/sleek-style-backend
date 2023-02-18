@@ -14,27 +14,20 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs16.x
+  runtime: nodejs18.x
   environment:
     S3_BUCKET_HAIRSTYLE_SUGGESTIONS: ${param:S3_BUCKET_HAIRSTYLE_SUGGESTIONS}
     S3_BUCKET_USER_DATA: ${param:S3_BUCKET_USER_DATA}
+    DYNAMO_USER_DATA: ${param:DYNAMO_USER_DATA}
 
 functions:
-  get-hairstyle-suggestions:
-    handler: handler.get
+  save-user-data:
+    handler: saveUserData.post
     events:
       - http:
-          path: /
-          method: get
-
-  upload-user-image:
-    handler: uploadUserImage.get
-    events:
-      - http:
-          path: suggestion-selector/upload-user-image
-          method: put
-          cors: true
-    iamRoleStatementsName: ${self:app}-${self:service}-upload-user-image
+          path: /save-user-data
+          method: post
+    iamRoleStatementsName: ${self:app}-${self:service}-save-user-data
     iamRoleStatements:
       - Effect: "Allow"
         Action:
