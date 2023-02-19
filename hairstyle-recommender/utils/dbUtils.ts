@@ -45,7 +45,7 @@ export const dynamoDBQuery = async (tableName, partitionKeyName, partitionKeyVal
 export const dynamoDBQueryWithParams = async (params, fetchAll, returnLastEvaluatedKey) => {
     console.log(params);
     const docClient = new DynamoDBClient();
-    let data: any = await docClient.query(params).promise();
+    let data: any = await docClient.send(new QueryCommand(params));
     let items: any = data.Items;
     if (!fetchAll) return returnLastEvaluatedKey ? { items: data.Items, lastEvaluatedKey: data.LastEvaluatedKey } : data.Items;
     while (data.LastEvaluatedKey) {
@@ -56,7 +56,7 @@ export const dynamoDBQueryWithParams = async (params, fetchAll, returnLastEvalua
     return items;
 };
 
-export const dynamoDBGetItem = async (tableName, partitionKeyName, partitionKeyVal, sortKeyName = undefined, sortKeyVal = undefined, requiredAttributes: any = undefined, indexName) => {
+export const dynamoDBGetItem = async (tableName, partitionKeyName, partitionKeyVal, sortKeyName: string | undefined = undefined, sortKeyVal: string | undefined = undefined, requiredAttributes: any = undefined, indexName: string | undefined = undefined) => {
     const docClient = new DynamoDBClient();
     let params: any = {
         TableName: tableName,

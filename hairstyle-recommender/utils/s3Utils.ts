@@ -1,5 +1,7 @@
-const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand, GetObjectCommand, ListObjectsCommand } = require("@aws-sdk/client-s3");
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { Readable } from "stream";
+import { CustomizationSettings } from "../types/userData";
 
 export const S3_METHODS = {
     get: 'getObject',
@@ -29,4 +31,28 @@ export async function getPreSignedUrl(
         }
         console.log('params :', command);
         return await getSignedUrl(s3Client, command, { expiresIn });
-}
+};
+
+export const getSuggestions = async (config: CustomizationSettings, faceShape: string, maxKeys: number | undefined = 5, version: string | undefined = "v1") => {
+    const path: string = `${version}/${config.gender}/${config.hairType}/${config.hairColor}/${config.hairLength}/${faceShape}`;
+    const s3Client = new S3Client({});
+    const params = {
+        Bucket: process.env.S3_BUCKET_HAIRSTYLE_SUGGESTIONS,
+        Prefix: path,
+        MaxKeys: maxKeys
+    };
+    const command = new ListObjectsCommand(params);
+    const response = await s3Client.send(command);
+    return response;
+};
+
+export async function getObject(bucket, key) {
+    const s3Client = new S3Client({});
+    const params = {
+        Bucket: bucket,
+        Key: key
+    };
+    const command = new GetObjectCommand(params);
+    const response = await s3Client.send(command);
+    return response;
+};

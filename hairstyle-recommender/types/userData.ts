@@ -1,3 +1,5 @@
+import { HairstyleSuggestion } from "./hairstyle"
+
 export enum UserDataStatus {
     WAITING_FOR_IMAGE,
     IMAGE_UPLOADED,
@@ -7,23 +9,24 @@ export enum UserDataStatus {
 }
 
 export enum Gender {
-    MALE = "Male",
-    FEMALE = "Female"
+    MALE = "male",
+    FEMALE = "female"
 }
 
 export enum HairColor {
-    RED = 'Red',
-    BLACK = 'Black'
+    RED = 'red',
+    BLACK = 'black'
 }
 
 export enum HairLength {
-    SHORT = 'Short',
-    LONG = 'Long'
+    SHORT = 'short',
+    LONG = 'long'
 }
 
 export enum HairType {
-    STRAIGHT = 'Straight',
-    CURLY = 'Curly'
+    STRAIGHT = 'straight',
+    CURLY = 'curly',
+    WAVY = 'wavy'
 }
 
 export type CustomizationSettings = {
@@ -40,7 +43,7 @@ export type UserData = {
     status: UserDataStatus,
     faceShape?: string,
     customizationSettings: CustomizationSettings,
-    suggestedHairstyles?: string[],
+    suggestedHairstyles?: HairstyleSuggestion[],
     generatedHairstyle?: string[] | string,
     lastModifiedDate: string
 }
