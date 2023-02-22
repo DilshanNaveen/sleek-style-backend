@@ -6,7 +6,6 @@ import { dynamoDBPutItem } from './utils/dbUtils';
 const { v4: uuidv4 } = require('uuid');
 
 const saveUserData = async (id: string, fileName: string, customizationSettings: CustomizationSettings) => {
-  console.log('id :', id);
   const payload: UserData = {
     id: id,
     date: new Date().toISOString(),
