@@ -19,9 +19,9 @@ To deploy the serverless code for SleekStyle, follow these steps:
 https://github.com/DilshanNaveen/sleek-style-backend.git
 ```
 
-2. Navigate to the `sleekstyle-serverless` directory:
+2. Navigate to the `sleek-style-backend` directory:
 ```
-cd sleekstyle-serverless
+cd sleek-style-backend
 ```
 
 3. Install the dependencies (use node 18):
