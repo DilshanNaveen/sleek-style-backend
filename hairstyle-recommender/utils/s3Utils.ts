@@ -33,7 +33,7 @@ export async function getPreSignedUrl(
         return await getSignedUrl(s3Client, command, { expiresIn });
 };
 
-export const getSuggestions = async (config: CustomizationSettings, faceShape: string, maxKeys: number | undefined = 5, version: string | undefined = "v1") => {
+export const getSuggestions = async (config: CustomizationSettings, faceShape: string, maxKeys: number | undefined = 5, version: string | undefined = "v2") => {
     const path: string = `${version}/${config.gender}/${config.hairType}/${config.hairColor}/${config.hairLength}/${faceShape}`;
     const s3Client = new S3Client({});
     const params = {
