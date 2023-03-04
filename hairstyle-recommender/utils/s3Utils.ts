@@ -35,6 +35,7 @@ export async function getPreSignedUrl(
 
 export const getSuggestions = async (config: CustomizationSettings, faceShape: string, maxKeys: number | undefined = 5, version: string | undefined = "v2") => {
     const path: string = `${version}/${config.gender}/${config.hairType}/${config.hairColor}/${config.hairLength}/${faceShape}`;
+    console.log("path :", path);
     const s3Client = new S3Client({});
     const params = {
         Bucket: process.env.S3_BUCKET_HAIRSTYLE_SUGGESTIONS,
