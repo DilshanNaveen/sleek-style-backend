@@ -17,7 +17,7 @@ export const post: Handler = async (event: any, res: any) => {
 
     const { status, output } = event.body;
 
-    console.log('status :', status);
+    console.log('status :', event.body.status);
     console.log('output :', output);
 
     const imageResponse = await axios.get(output, { responseType: 'arraybuffer' });
