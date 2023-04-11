@@ -1,4 +1,4 @@
-name: Deploy hairstyle generator api prod
+name: Deploy hairstyle generator API to Prod
 
 on:
   push:
@@ -9,12 +9,12 @@ on:
 
 jobs:
   deploy:
-    name: Deploy
+    name: Deploy to Prod
     runs-on: ubuntu-latest
-    environment: Prod
+    environment: Production
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [14.x, 16.x, 18.x]
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -28,14 +28,16 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+
     - name: Install dependencies
       run: npm ci
       working-directory: ./hairstyle-generator-api
-    - name: Deploy hairstyle generator
+
+    - name: Deploy to AWS
       uses: serverless/github-action@v3.1
       with:
         args: -c "cd ./hairstyle-generator-api && sls deploy -s prod -r ap-southeast-1"
