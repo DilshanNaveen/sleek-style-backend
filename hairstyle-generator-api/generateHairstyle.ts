@@ -38,7 +38,7 @@ export const get: Handler = async (event: any) => {
       data: JSON.stringify(data)
     });
 
-    console.log("result :", result.data);
+    console.log("result : ", result.data);
 
     return getSuccessResponse({ body: result.data.status });
   } catch (error) {
