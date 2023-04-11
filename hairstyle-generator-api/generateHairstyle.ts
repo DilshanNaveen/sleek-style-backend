@@ -25,7 +25,9 @@ export const get: Handler = async (event: any) => {
       input: {
         identity_image: identityImage,
         appearance_image: appearanceImage,
-      }
+      },
+      webhook: `${process.env.WEBHOOK_URL as string}?id=${id}`,
+      webhook_events_filter: ["completed"]
     }
 
     console.log("identityImage : ", identityImage);

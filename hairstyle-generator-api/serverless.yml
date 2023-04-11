@@ -27,6 +27,7 @@ provider:
     DYNAMODB_TABLE_USER_DATA: ${param:DYNAMODB_TABLE_USER_DATA}
     REPLICATE_API_URL: ${param:REPLICATE_API_URL}
     REPLICATE_API_TOKEN: ${param:REPLICATE_API_TOKEN}
+    WEBHOOK_URL: ${param:WEBHOOK_URL}
   logRetentionInDays: 1
 
 functions:  

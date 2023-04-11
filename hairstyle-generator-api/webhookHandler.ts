@@ -1,14 +1,14 @@
 import { Handler } from "aws-lambda";
 
 type queryStringParameters = {
-  predictionId: string;
+  id: string;
 }
 
 export const post: Handler = async (event: any, res: any) => {
   try {
-    const { predictionId }: queryStringParameters = event.queryStringParameters;
+    const { id = "Hi" }: queryStringParameters = event.queryStringParameters;
     
-    console.log("predictionId :", predictionId);
+    console.log("id :", id);
     console.log("event.body :", event.body);
 
     res.sendStatus(200);
