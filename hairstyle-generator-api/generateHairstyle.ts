@@ -27,6 +27,9 @@ export const get: Handler = async (event: any) => {
       }
     }
 
+    console.log("identityImage : ", identityImage);
+    console.log("appearanceImage : ", appearanceImage);
+
     const result = await axios({
       method: 'post',
       maxBodyLength: Infinity,
