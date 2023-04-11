@@ -11,26 +11,26 @@ export const S3_METHODS = {
 export const getS3Method = (m) => S3_METHODS[m];
 
 export async function getPreSignedUrl(
-    bucket: any, 
-    key: string, 
-    method: string = S3_METHODS.get, 
-    contentType: string | undefined = undefined, 
+    bucket: any,
+    key: string,
+    method: string = S3_METHODS.get,
+    contentType: string | undefined = undefined,
     expiresIn: number = 3600
-    ) {
-        const s3Client = new S3Client({});
-        const payload = { Bucket: bucket, Key: key, ContentType: contentType };
-        console.log("payload :", payload);
-        let command;
-        switch (method) {
-            case S3_METHODS.put:
-                command = new PutObjectCommand(payload);
-                break;
-            default:
-                command = new GetObjectCommand(payload);
-                break;
-        }
-        console.log('params :', command);
-        return await getSignedUrl(s3Client, command, { expiresIn });
+) {
+    const s3Client = new S3Client({});
+    const payload = { Bucket: bucket, Key: key, ContentType: contentType };
+    console.log("payload :", payload);
+    let command;
+    switch (method) {
+        case S3_METHODS.put:
+            command = new PutObjectCommand(payload);
+            break;
+        default:
+            command = new GetObjectCommand(payload);
+            break;
+    }
+    console.log('params :', command);
+    return await getSignedUrl(s3Client, command, { expiresIn });
 };
 
 export const getSuggestions = async (config: CustomizationSettings, faceShape: string, maxKeys: number | undefined = 5, version: string | undefined = "v2") => {
@@ -55,5 +55,19 @@ export async function getObject(bucket, key) {
     };
     const command = new GetObjectCommand(params);
     const response = await s3Client.send(command);
+    return response;
+};
+
+export async function putObject(bucket, key, payload, contentType: string  = "image/png") {
+    const s3Client = new S3Client({});
+
+    const putObjectCommand = new PutObjectCommand({
+        Bucket: bucket,
+        Key: key,
+        Body: payload,
+        ContentType: contentType,
+    });
+
+    const response = await s3Client.send(putObjectCommand);
     return response;
 };
