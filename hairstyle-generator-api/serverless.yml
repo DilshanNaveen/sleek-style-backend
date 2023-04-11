@@ -1,0 +1,64 @@
+org: dilshaniit
+app: sleek-style
+service: hairstyle-generator
+frameworkVersion: '3'
+
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
+
+plugins:
+  - serverless-iam-roles-per-function
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    packager: 'npm'
+    includeModules: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  environment:
+    S3_BUCKET_HAIRSTYLE_SUGGESTIONS: ${param:S3_BUCKET_HAIRSTYLE_SUGGESTIONS}
+    S3_BUCKET_USER_DATA: ${param:S3_BUCKET_USER_DATA}
+    DYNAMODB_TABLE_USER_DATA: ${param:DYNAMODB_TABLE_USER_DATA}
+    REPLICATE_API_URL: ${param:REPLICATE_API_URL}
+    REPLICATE_API_TOKEN: ${param:REPLICATE_API_TOKEN}
+  logRetentionInDays: 1
+
+functions:  
+  generate-hairstyle:
+    handler: generateHairstyle.get
+    timeout: 30
+    events:
+      - http:
+          path: /generate-hairstyle
+          method: get
+    iamRoleStatementsName: ${self:app}-${self:service}-generate-hairstyle
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "s3:PutObject"
+          - "s3:GetObject"
+        Resource: 
+          Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_USER_DATA}/*" ]]
+      - Effect: "Allow"
+        Action:
+          - "s3:*"
+        Resource: 
+          Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_HAIRSTYLE_SUGGESTIONS}" ]]
+      - Effect: "Allow"
+        Action:
+          - "s3:*"
+        Resource: 
+          Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_HAIRSTYLE_SUGGESTIONS}/*" ]]
+      - Effect: "Allow"
+        Action:
+          - dynamodb:PutItem
+          - dynamodb:GetItem
+          - dynamodb:Query
+        Resource: 
+          Fn::Join: [ "", [ "arn:aws:dynamodb:", { Ref: "AWS::Region" }, ':', { Ref: "AWS::AccountId" }, ":table/${param:DYNAMODB_TABLE_USER_DATA}" ] ]
