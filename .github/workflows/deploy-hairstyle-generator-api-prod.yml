@@ -11,7 +11,7 @@ jobs:
   deploy:
     name: Deploy to Prod
     runs-on: ubuntu-latest
-    environment: Production
+    environment: Prod
     strategy:
       matrix:
         node-version: [18.x]
