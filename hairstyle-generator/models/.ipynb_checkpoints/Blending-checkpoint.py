@@ -135,7 +135,7 @@ class Blending(nn.Module):
         I_G, _ = self.net.generator([latent_mixed], input_is_latent=True, return_latents=False, start_layer=4,
                            end_layer=8, layer_in=latent_F_mixed)
 
-        self.save_blend_results(im_name_1, im_name_2, im_name_3, sign, I_G, latent_mixed, latent_F_mixed)
+        return self.save_blend_results(im_name_1, im_name_2, im_name_3, sign, I_G, latent_mixed, latent_F_mixed)
 
     def save_blend_results(self, im_name_1, im_name_2, im_name_3, sign,  gen_im, latent_in, latent_F):
         save_im = toPIL(((gen_im[0] + 1) / 2).detach().cpu().clamp(0, 1))
@@ -150,5 +150,6 @@ class Blending(nn.Module):
         save_im.save(image_path)
         save_im.save(output_image_path)
         np.savez(latent_path, latent_in=latent_in.detach().cpu().numpy(), latent_F=latent_F.detach().cpu().numpy())
+        return output_image_path
 
 

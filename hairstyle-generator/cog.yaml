@@ -6,9 +6,9 @@ build:
   gpu: true
 
   # a list of ubuntu apt packages to install
-  # system_packages:
-    # - "libgl1-mesa-glx"
-    # - "libglib2.0-0"
+  system_packages:
+    - "cmake"
+    # - "libglib2.0-0" # commented out, only uncomment if needed
 
   # python version in the form '3.8' or '3.8.12'
   python_version: "3.7"
@@ -16,9 +16,15 @@ build:
   # a list of packages in the format <package-name>==<version>
   python_packages:
     - "tensorflow==1.13.1"
-    - "torch==1.8.0"
-    - "torchvision==0.9.0"
-  
+    - "torch==1.7.0"
+    - "torchvision==0.8.1"
+    - "dlib==19.17.0" # Updated dlib version number format
+    - "ninja==1.11.1"
+    - "gdown==3.13.1"
+    - "scikit-image==0.18.3"
+    - "ipython==7.29.0"
+    - "opencv-python-headless==4.6.0.66" 
+
   # commands run after the environment is setup
   # run:
     # - "echo env is ready!"
