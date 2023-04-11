@@ -21,6 +21,12 @@ custom:
 provider:
   name: aws
   runtime: nodejs18.x
+  environment:
+    S3_BUCKET_HAIRSTYLE_SUGGESTIONS: ${param:S3_BUCKET_HAIRSTYLE_SUGGESTIONS}
+    S3_BUCKET_USER_DATA: ${param:S3_BUCKET_USER_DATA}
+    DYNAMODB_TABLE_USER_DATA: ${param:DYNAMODB_TABLE_USER_DATA}
+    REPLICATE_API_URL: ${param:REPLICATE_API_URL}
+    REPLICATE_API_TOKEN: ${param:REPLICATE_API_TOKEN}
   logRetentionInDays: 1
 
 functions:  
