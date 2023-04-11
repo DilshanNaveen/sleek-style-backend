@@ -9,23 +9,33 @@ on:
 
 jobs:
   deploy:
-    name: deploy
+    name: Deploy
     runs-on: ubuntu-latest
     environment: Prod
     strategy:
       matrix:
         node-version: [18.x]
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Add caching for npm packages
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm cache clean --force
+    - name: Install dependencies
+      run: npm ci
       working-directory: ./hairstyle-generator-api
-    - run: npm install
-      working-directory: ./hairstyle-generator-api
-    - name: Serverless deploy hairstyle generator
+    - name: Deploy hairstyle generator
       uses: serverless/github-action@v3.1
       with:
         args: -c "cd ./hairstyle-generator-api && sls deploy -s prod -r ap-southeast-1"

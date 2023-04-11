@@ -16,8 +16,8 @@ export const get: Handler = async (event: any) => {
     const [userData] = await dynamoDBQuery(process.env.DYNAMODB_TABLE_USER_DATA, "id", id);
     console.log("userData :", userData);
     const appearanceImageKey: string = userData.suggestedHairstyles.find((item: HairstyleSuggestion) => item.id === appearanceImageId)?.key;
-    const identityImage = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, userData.image, S3_METHODS.get, undefined, 840000);
-    const appearanceImage = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, appearanceImageKey, S3_METHODS.get, undefined, 840000);
+    const identityImage = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, userData.image, S3_METHODS.get, undefined, 900);
+    const appearanceImage = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, appearanceImageKey, S3_METHODS.get, undefined, 900);
 
     const data = {
       version: "281b67c433c57ad1901593e12a34fd945a0d52d198642af8f046a2c177d4b813",
