@@ -1,5 +1,5 @@
 import { Handler } from "aws-lambda";
-import { getSuccessResponse, getErrorResponse, getBooleanResponse } from "./utils/responseUtil";
+import { getErrorResponse, getBooleanResponse } from "./utils/responseUtil";
 import { S3_METHODS, getPreSignedUrl, putObject } from "./utils/s3Utils";
 import { HairstyleSuggestion } from "./types/hairstyle";
 import axios from "axios";

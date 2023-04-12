@@ -28,6 +28,7 @@
     "@types/node": "^18.14.0",
     "babel-loader": "^8.1.0",
     "fork-ts-checker-webpack-plugin": "^5.0.12",
+    "serverless-domain-manager": "^7.0.2",
     "serverless-webpack": "^5.11.0",
     "webpack": "^5.75.0",
     "webpack-node-externals": "^2.5.0"
