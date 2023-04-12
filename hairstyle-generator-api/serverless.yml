@@ -59,9 +59,8 @@ functions:
           Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_HAIRSTYLE_SUGGESTIONS}/*" ]]
       - Effect: "Allow"
         Action:
-          - dynamodb:PutItem
+          - dynamodb:UpdateItem
           - dynamodb:GetItem
-          - dynamodb:Query
         Resource: 
           Fn::Join: [ "", [ "arn:aws:dynamodb:", { Ref: "AWS::Region" }, ':', { Ref: "AWS::AccountId" }, ":table/${param:DYNAMODB_TABLE_USER_DATA}" ] ]
 
@@ -92,8 +91,38 @@ functions:
           Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_HAIRSTYLE_SUGGESTIONS}/*" ]]
       - Effect: "Allow"
         Action:
-          - dynamodb:PutItem
           - dynamodb:UpdateItem
-          - dynamodb:Query
         Resource: 
           Fn::Join: [ "", [ "arn:aws:dynamodb:", { Ref: "AWS::Region" }, ':', { Ref: "AWS::AccountId" }, ":table/${param:DYNAMODB_TABLE_USER_DATA}" ] ]
+
+  cancel-generator:
+      handler: cancelGenerator.get
+      timeout: 30
+      events:
+        - http:
+            path: /cancel-generator
+            method: get
+      iamRoleStatementsName: ${self:app}-${self:service}-cancel-generator
+      iamRoleStatements:
+        - Effect: "Allow"
+          Action:
+            - "s3:PutObject"
+            - "s3:GetObject"
+          Resource: 
+            Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_USER_DATA}/*" ]]
+        - Effect: "Allow"
+          Action:
+            - "s3:*"
+          Resource: 
+            Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_HAIRSTYLE_SUGGESTIONS}" ]]
+        - Effect: "Allow"
+          Action:
+            - "s3:*"
+          Resource: 
+            Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_HAIRSTYLE_SUGGESTIONS}/*" ]]
+        - Effect: "Allow"
+          Action:
+            - dynamodb:UpdateItem
+            - dynamodb:GetItem
+          Resource: 
+            Fn::Join: [ "", [ "arn:aws:dynamodb:", { Ref: "AWS::Region" }, ':', { Ref: "AWS::AccountId" }, ":table/${param:DYNAMODB_TABLE_USER_DATA}" ] ]

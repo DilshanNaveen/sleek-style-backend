@@ -29,5 +29,7 @@ export async function saveUserImageData(key: string, imageUrl: string) {
 };
 
 export async function getUserData(id: string) {
-    return await dynamoDBGetItem(process.env.DYNAMODB_TABLE_USER_DATA, "id", id);
+    const response = await dynamoDBGetItem(process.env.DYNAMODB_TABLE_USER_DATA, "id", id);
+    console.log("response :", response);
+    return response.Item;
 };

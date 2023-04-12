@@ -1,6 +1,6 @@
 import { Handler } from "aws-lambda";
-import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
-import { S3_METHODS, getPreSignedUrl } from "./utils/s3Utils";
+import { getSuccessResponse, getErrorResponse, getBooleanResponse } from "./utils/responseUtil";
+import { S3_METHODS, getPreSignedUrl, putObject } from "./utils/s3Utils";
 import { HairstyleSuggestion } from "./types/hairstyle";
 import axios from "axios";
 import { UserDataStatus } from "./types/userData";
@@ -50,9 +50,16 @@ export const get: Handler = async (event: any) => {
 
     const identityImage = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, userData.image, S3_METHODS.get, undefined, 1800);
     const appearanceImage = await getPreSignedUrl(process.env.S3_BUCKET_HAIRSTYLE_SUGGESTIONS, appearanceImageKey, S3_METHODS.get, undefined, 1800);
-    const triggerResponse = await triggerReplicate(id, identityImage, appearanceImage);
+    const log = await triggerReplicate(id, identityImage, appearanceImage);
 
-    console.log("result :", triggerResponse);
+    console.log("saving log :", log);
+
+    await putObject(
+      process.env.S3_BUCKET_USER_DATA,
+      `${id}/log/${log?.status || "error"}_log.json`,
+      JSON.stringify(log),
+      "application/json"
+    );
 
     console.log("Saving user input images...")
     await saveUserImageData(`${id}/identity_image.png`, identityImage);
@@ -66,15 +73,10 @@ export const get: Handler = async (event: any) => {
         appearance_image: appearanceImage,
       },
       status: UserDataStatus.START_GENERATING_HAIRSTYLE,
+      generatorId: log.id,
     });
     console.log("Saved user data.");
-
-    return getSuccessResponse({
-      status: triggerResponse.status,
-      identityImage: identityImage,
-      appearanceImage: appearanceImage,
-      id: triggerResponse.id,
-    });
+    return getBooleanResponse(true);
   } catch (error) {
     console.log('error message :', error);
     getErrorResponse(error.message);
