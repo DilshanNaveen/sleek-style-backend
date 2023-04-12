@@ -10,9 +10,11 @@ type queryStringParameters = {
 export const post: Handler = async (event: any, _, callback: any) => {
   try {
     const { id }: queryStringParameters = event.queryStringParameters;
+    console.log("received event :", event);
     const { output } = JSON.parse(event.body);
+    console.log("output :", output);
     console.log("Saving log...")
-    await putObject(process.env.S3_BUCKET_USER_DATA, `${id}/log.json`, event.body);
+    await putObject(process.env.S3_BUCKET_USER_DATA, `${id}/log.json`, event.body, "image/json");
     console.log("Saved log.");
     console.log("Saving generated image...");
     await saveUserImageData(`${id}/generated_image.png`, output);
@@ -24,9 +26,8 @@ export const post: Handler = async (event: any, _, callback: any) => {
       status: UserDataStatus.HAIRSTYLE_GENERATED,
     });
     console.log("Saved user data.");
-    callback(null, {});
+    callback(null, {statusCode: 200, body: "Success"});
   } catch (error) {
-    console.log("error message :", error);
-    callback(null, {});
+    callback(null, {statusCode: 500, body: "Error"});
   }
 };
