@@ -12,7 +12,7 @@ export const post: Handler = async (event: any, _, callback: any) => {
     const { id }: queryStringParameters = event.queryStringParameters;
     const { output } = JSON.parse(event.body);
     console.log("Saving log...")
-    await putObject(process.env.S3_BUCKET_USER_DATA, `${id}/log.json`, JSON.parse(event.body));
+    await putObject(process.env.S3_BUCKET_USER_DATA, `${id}/log.json`, event.body);
     console.log("Saved log.");
     console.log("Saving generated image...");
     await saveUserImageData(`${id}/generated_image.png`, output);
