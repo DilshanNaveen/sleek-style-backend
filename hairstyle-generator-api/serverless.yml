@@ -28,6 +28,7 @@ provider:
     REPLICATE_API_URL: ${param:REPLICATE_API_URL}
     REPLICATE_API_TOKEN: ${param:REPLICATE_API_TOKEN}
     WEBHOOK_URL: ${param:WEBHOOK_URL}
+    MODEL_VERSION: ${param:MODEL_VERSION}
   logRetentionInDays: 1
 
 functions:  
