@@ -1,0 +1,48 @@
+name: Deploy hairstyle generator API to Prod
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'hairstyle-generator-api/**'
+
+jobs:
+  deploy:
+    name: Deploy to Prod
+    runs-on: ubuntu-latest
+    environment: Prod
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Add caching for npm packages
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ./hairstyle-generator-api
+
+    - name: Deploy to AWS
+      uses: serverless/github-action@v3.1
+      with:
+        args: -c "cd ./hairstyle-generator-api && sls deploy -s prod -r ap-southeast-1"
+        entrypoint: /bin/sh
+      env:
+        SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
