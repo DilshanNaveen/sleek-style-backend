@@ -29,7 +29,7 @@ export async function saveUserImageData(key: string, imageUrl: string) {
     return await putObject(process.env.S3_BUCKET_USER_DATA, key, imageData);
 };
 
-export async function getUserData(id: string): Promise<UserData | undefined> {
+export async function getUserData(id: string): Promise<UserData> {
     const response = await dynamoDBGetItem(process.env.DYNAMODB_TABLE_USER_DATA, "id", id);
     console.log("response :", response);
     return response.Item;

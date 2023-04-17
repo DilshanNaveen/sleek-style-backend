@@ -47,5 +47,6 @@ export type UserData = {
     customizationSettings: CustomizationSettings,
     suggestedHairstyles?: HairstyleSuggestion[],
     generatedHairstyle?: string[] | string,
+    generatorId?: string,
     lastModifiedDate: string
 }
