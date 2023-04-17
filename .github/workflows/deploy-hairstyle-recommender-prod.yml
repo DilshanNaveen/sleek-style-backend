@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'hairstyle-recommender/**'
+      - 'hairstyle-recommender-api/**'
 
 jobs:
   deploy:
@@ -21,14 +21,19 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm cache clean --force
-      working-directory: ./hairstyle-recommender
-    - run: npm install
-      working-directory: ./hairstyle-recommender
+        
+    - name: Setup Node.js
+      run: npm cache clean --force
+      working-directory: ./hairstyle-recommender-api
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./hairstyle-recommender-api
+
     - name: Serverless deploy hairstyle recommender
       uses: serverless/github-action@v3.1
       with:
-        args: -c "cd ./hairstyle-recommender && sls deploy -s prod -r ap-southeast-1"
+        args: -c "cd ./hairstyle-recommender-api && sls deploy -s prod -r ap-southeast-1"
         entrypoint: /bin/sh
       env:
         SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
