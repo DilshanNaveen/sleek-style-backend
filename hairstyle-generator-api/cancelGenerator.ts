@@ -43,9 +43,9 @@ export const get: Handler = async (event: any) => {
       console.log("Saved user data.");
       return getBooleanResponse(true);
     }
-    getErrorResponse("Failed to cancel generator.");
+    return getErrorResponse("Failed to cancel generator.");
   } catch (error) {
     console.log("error message :", error);
-    getErrorResponse(error.message);
+    return getErrorResponse(error.message);
   }
 };

@@ -104,6 +104,6 @@ export const get: Handler = async (event: any) => {
     return getBooleanResponse(true);
   } catch (error) {
     console.log('error message :', error);
-    getErrorResponse(error.message);
+    return getErrorResponse(error.message);
   }
 };

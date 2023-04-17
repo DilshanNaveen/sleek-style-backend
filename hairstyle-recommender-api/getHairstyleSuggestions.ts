@@ -64,6 +64,6 @@ export const get: Handler = async (event: any) => {
     return getSuccessResponse({ body: response });
   } catch (error) {
     console.log('error message :', error);
-    getErrorResponse(error.message);
+    return getErrorResponse(error.message);
   }
 };

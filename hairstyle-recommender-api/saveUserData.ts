@@ -29,6 +29,6 @@ export const post: Handler = async (event: any) => {
     return getSuccessResponse({ body: { url, id } });
   } catch (error) {
     console.log('error :', error);
-    getErrorResponse(error.message);
+    return getErrorResponse(error.message);
   }
 };
