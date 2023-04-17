@@ -1,0 +1,44 @@
+org: dilshaniit
+app: sleek-style
+service: feedback-collector
+frameworkVersion: '3'
+
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
+
+plugins:
+  - serverless-iam-roles-per-function
+  - serverless-webpack
+  # - serverless-domain-manager
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    packager: 'npm'
+    includeModules: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  environment:
+    DYNAMODB_TABLE_USER_DATA: ${param:DYNAMODB_TABLE_USER_DATA}
+  logRetentionInDays: 1
+
+functions:  
+  save-feedback:
+    handler: saveFeedback.post
+    timeout: 30
+    events:
+      - http:
+          path: /save-feedback
+          method: get
+    iamRoleStatementsName: ${self:app}-${self:service}-save-feedback
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:UpdateItem
+          - dynamodb:GetItem
+        Resource: 
+          Fn::Join: [ "", [ "arn:aws:dynamodb:", { Ref: "AWS::Region" }, ':', { Ref: "AWS::AccountId" }, ":table/${param:DYNAMODB_TABLE_USER_DATA}" ] ]

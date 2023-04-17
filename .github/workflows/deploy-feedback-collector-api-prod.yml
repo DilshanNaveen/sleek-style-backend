@@ -1,0 +1,41 @@
+name: Deploy feedback collector prod
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'feedback-collector-api/**'
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    environment: Prod
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: Setup Node.js
+      run: npm cache clean --force
+      working-directory: ./feedback-collector-api
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./feedback-collector-api
+
+    - name: Serverless deploy hairstyle recommender
+      uses: serverless/github-action@v3.1
+      with:
+        args: -c "cd ./feedback-collector-api && sls deploy -s prod -r ap-southeast-1"
+        entrypoint: /bin/sh
+      env:
+        SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
