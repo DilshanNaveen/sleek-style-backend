@@ -6,7 +6,8 @@ export enum UserDataStatus {
     FACE_SHAPE_PREDICTED,
     HAIRSTYLE_SUGGESTED,
     START_GENERATING_HAIRSTYLE,
-    HAIRSTYLE_GENERATED
+    HAIRSTYLE_GENERATED,
+    GENERATOR_CANCELED
 }
 
 export enum Gender {
@@ -46,5 +47,6 @@ export type UserData = {
     customizationSettings: CustomizationSettings,
     suggestedHairstyles?: HairstyleSuggestion[],
     generatedHairstyle?: string[] | string,
+    generatorId?: string,
     lastModifiedDate: string
 }
