@@ -20,7 +20,7 @@ build:
     - "torchvision==0.8.1"
     - "dlib==19.17.0" # Updated dlib version number format
     - "ninja==1.11.1"
-    - "gdown==3.13.1"
+    - "gdown==4.7.1"
     - "scikit-image==0.18.3"
     - "ipython==7.29.0"
     - "opencv-python-headless==4.6.0.66" 
