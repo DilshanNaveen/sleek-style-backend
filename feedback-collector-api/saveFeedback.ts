@@ -1,11 +1,18 @@
 import { Handler } from "aws-lambda";
-import { getErrorResponse, getSuccessResponse } from './utils/responseUtil';
+import { getBooleanResponse, getErrorResponse } from './utils/responseUtil';
+import { updateUserData } from "./utils/userUtils";
+
+type queryStringParameters = {
+  id: string;
+};
 
 export const post: Handler = async (event: any) => {
   try {
+    const { id }: queryStringParameters = event.queryStringParameters;
     const feedback = JSON.parse(event.body);
     console.log("feedback", feedback);
-    return getSuccessResponse(feedback);
+    await updateUserData(id, { feedback });
+    return getBooleanResponse(true);
   } catch (error) {
     console.log("error", error);
     return getErrorResponse(error.message);
