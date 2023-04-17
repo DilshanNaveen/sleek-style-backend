@@ -58,10 +58,11 @@ export const get: Handler = async (event: any) => {
     const resolvedPromises: HairstyleSuggestionResolvedPromise[] = await Promise.all(promises);
     const suggestions: HairstyleSuggestion[] = resolvedPromises.map(({ id, key }: HairstyleSuggestionResolvedPromise) => ({ id, key }));
     const response: HairstyleSuggestionResponse[] = resolvedPromises.map(({ id, url }: HairstyleSuggestionResolvedPromise) => ({ id, url }));
+    const userImage: string = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, userData.image);
 
     await saveUserData(userData, faceShape, suggestions);
 
-    return getSuccessResponse({ body: response });
+    return getSuccessResponse({ body: { userImage, suggestions: response } });
   } catch (error) {
     console.log('error message :', error);
     return getErrorResponse(error.message);

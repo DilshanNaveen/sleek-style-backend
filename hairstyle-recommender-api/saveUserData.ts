@@ -23,7 +23,7 @@ export const post: Handler = async (event: any) => {
     const { contentType }: any = event.queryStringParameters;
     const eventBody: CustomizationSettings = JSON.parse(event.body);
     const id = uuidv4();
-    const fileName = `${id}.${contentType.split('/')[1]}`;
+    const fileName = `${id}/original-image.${contentType.split('/')[1]}`;
     const url = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, fileName, S3_METHODS.put, contentType);
     await saveUserData(id, fileName, eventBody);
     return getSuccessResponse({ body: { url, id } });
