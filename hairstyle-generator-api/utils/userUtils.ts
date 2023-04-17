@@ -1,6 +1,7 @@
 import { dynamoDBGetItem, dynamoDBUpdateItem } from "./dbUtils";
 import axios from "axios";
 import { putObject } from "./s3Utils";
+import { UserData } from "../types/userData";
 
 export async function updateUserData(id: string, userData: any) {
     return await dynamoDBUpdateItem(
@@ -28,7 +29,7 @@ export async function saveUserImageData(key: string, imageUrl: string) {
     return await putObject(process.env.S3_BUCKET_USER_DATA, key, imageData);
 };
 
-export async function getUserData(id: string) {
+export async function getUserData(id: string): Promise<UserData | undefined> {
     const response = await dynamoDBGetItem(process.env.DYNAMODB_TABLE_USER_DATA, "id", id);
     console.log("response :", response);
     return response.Item;

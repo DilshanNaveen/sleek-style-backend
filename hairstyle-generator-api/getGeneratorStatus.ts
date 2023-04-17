@@ -13,7 +13,7 @@ type queryStringParameters = {
 export const get: Handler = async (event: any) => {
   try {
     const { id }: queryStringParameters = event.queryStringParameters;
-    const { generatorId } = await getUserData(id);
+    const { generatorId, customizationSettings, faceShape }: any = await getUserData(id);
     const result = await axios({
       method: "get",
       maxBodyLength: Infinity,
@@ -27,7 +27,7 @@ export const get: Handler = async (event: any) => {
     const { status, output } = result.data;
     console.log("status :", status);
     console.log("output :", output);
-    return getSuccessResponse({ status, output });
+    return getSuccessResponse({ status, output, customizationSettings, faceShape });
   } catch (error) {
     console.log("error message :", error);
     return getErrorResponse(error.message);
