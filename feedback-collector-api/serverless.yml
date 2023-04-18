@@ -33,7 +33,7 @@ functions:
     events:
       - http:
           path: /save-feedback
-          method: get
+          method: post
     iamRoleStatementsName: ${self:app}-${self:service}-save-feedback
     iamRoleStatements:
       - Effect: "Allow"
