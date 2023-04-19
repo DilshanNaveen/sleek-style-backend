@@ -22,6 +22,8 @@ custom:
   #   domainName: ${param:DOMAIN_NAME}
   #   basePath: generator-api
   #   createRoute53Record: false
+  apiKeys:
+  - ${param:API_KEY}
 
 provider:
   name: aws
@@ -78,6 +80,8 @@ functions:
       - http:
           path: /handle-webhook
           method: post
+          private: true
+          apiKeyRequired: true
     iamRoleStatementsName: ${self:app}-${self:service}-handle-webhook
     iamRoleStatements:
       - Effect: "Allow"
@@ -109,6 +113,8 @@ functions:
       - http:
           path: /cancel-generator
           method: get
+          private: true
+          apiKeyRequired: true
     iamRoleStatementsName: ${self:app}-${self:service}-cancel-generator
     iamRoleStatements:
       - Effect: "Allow"
@@ -141,7 +147,8 @@ functions:
       - http:
           path: /generator-status
           method: get
-          
+          private: true
+          apiKeyRequired: true
     iamRoleStatementsName: ${self:app}-${self:service}-get-generator-status
     iamRoleStatements:
       - Effect: "Allow"

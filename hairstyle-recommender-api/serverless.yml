@@ -40,7 +40,8 @@ functions:
       - http:
           path: /save-user-data
           method: post
-          
+          private: true
+          apiKeyRequired: true
     iamRoleStatementsName: ${self:app}-${self:service}-save-user-data
     iamRoleStatements:
       - Effect: "Allow"
@@ -62,7 +63,8 @@ functions:
       - http:
           path: /get-hairstyle-suggestions
           method: get
-          
+          private: true
+          apiKeyRequired: true
     iamRoleStatementsName: ${self:app}-${self:service}-get-hairstyle-suggestions
     iamRoleStatements:
       - Effect: "Allow"

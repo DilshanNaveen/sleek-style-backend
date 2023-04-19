@@ -18,6 +18,8 @@ custom:
     webpackConfig: 'webpack.config.js'
     packager: 'npm'
     includeModules: true
+  apiKeys:
+  - ${param:API_KEY}
 
 provider:
   name: aws
@@ -36,6 +38,8 @@ functions:
       - http:
           path: /save-feedback
           method: post
+          private: true
+          apiKeyRequired: true
     iamRoleStatementsName: ${self:app}-${self:service}-save-feedback
     iamRoleStatements:
       - Effect: "Allow"
