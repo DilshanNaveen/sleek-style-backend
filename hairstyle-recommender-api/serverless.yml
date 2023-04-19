@@ -37,6 +37,7 @@ functions:
       - http:
           path: /save-user-data
           method: post
+          authorizer: aws_iam
     iamRoleStatementsName: ${self:app}-${self:service}-save-user-data
     iamRoleStatements:
       - Effect: "Allow"
@@ -58,6 +59,7 @@ functions:
       - http:
           path: /get-hairstyle-suggestions
           method: get
+          authorizer: aws_iam
     iamRoleStatementsName: ${self:app}-${self:service}-get-hairstyle-suggestions
     iamRoleStatements:
       - Effect: "Allow"
@@ -91,6 +93,7 @@ functions:
       - http:
           path: /get-status
           method: get
+          authorizer: aws_iam
     iamRoleStatementsName: ${self:app}-${self:service}-get-status
     iamRoleStatements:
       - Effect: "Allow"
