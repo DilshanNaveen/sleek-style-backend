@@ -17,6 +17,9 @@ custom:
     webpackConfig: 'webpack.config.js'
     packager: 'npm'
     includeModules: true
+  apiKeys:
+    - ${param:API_KEY}
+
 
 provider:
   name: aws
@@ -93,7 +96,8 @@ functions:
       - http:
           path: /get-status
           method: get
-          
+          private: true
+          apiKeyRequired: true
     iamRoleStatementsName: ${self:app}-${self:service}-get-status
     iamRoleStatements:
       - Effect: "Allow"
