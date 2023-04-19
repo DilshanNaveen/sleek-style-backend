@@ -35,6 +35,8 @@ provider:
     WEBHOOK_URL: ${param:WEBHOOK_URL}
     MODEL_VERSION: ${param:MODEL_VERSION}
   logRetentionInDays: 1
+  apiGateway:
+    shouldStartNameWithService: true
 
 functions:  
   generate-hairstyle:

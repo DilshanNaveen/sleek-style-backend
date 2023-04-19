@@ -25,6 +25,8 @@ provider:
   environment:
     DYNAMODB_TABLE_USER_DATA: ${param:DYNAMODB_TABLE_USER_DATA}
   logRetentionInDays: 1
+  apiGateway:
+    shouldStartNameWithService: true
 
 functions:  
   save-feedback:

@@ -27,6 +27,8 @@ provider:
     DYNAMODB_TABLE_USER_DATA: ${param:DYNAMODB_TABLE_USER_DATA}
     FACE_SHAPE_PREDICTOR_API: ${param:FACE_SHAPE_PREDICTOR_API}
   logRetentionInDays: 1
+  apiGateway:
+    shouldStartNameWithService: true
 
 functions:
   save-user-data:
