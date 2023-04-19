@@ -141,6 +141,7 @@ functions:
       - http:
           path: /generator-status
           method: get
+          authorizer: aws_iam
     iamRoleStatementsName: ${self:app}-${self:service}-get-generator-status
     iamRoleStatements:
       - Effect: "Allow"
