@@ -11,6 +11,7 @@ type queryStringParameters = {
 
 const cancelGeneratorModel = async (id: string) => {
   const { generatorId } = await getUserData(id);
+  if (!process.env.REPLICATE_API_URL) throw new Error("REPLICATE_API_URL is not defined.");
   const result = await axios({
     method: "post",
     maxBodyLength: Infinity,
@@ -30,6 +31,7 @@ export const get: Handler = async (event: any) => {
     console.log("received event :", event);
     const log = await cancelGeneratorModel(id);
     console.log("Saving log... :", log);
+    if (!process.env.S3_BUCKET_USER_DATA) throw new Error("S3_BUCKET_USER_DATA is not defined."); 
     await putObject(
       process.env.S3_BUCKET_USER_DATA,
       `${id}/log/${log?.status || "error"}_log.json`,
