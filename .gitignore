@@ -6,3 +6,6 @@ jspm_packages
 .serverless
 .webpack
 .webpackCache
+
+dist
+sleek-style-util/dist/index.js

@@ -1,8 +1,9 @@
 {
-  "name": "sleek-style",
-  "version": "1.0.0",
+  "name": "sleek-style-util",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
@@ -18,6 +19,7 @@
     "axios": "^1.3.3",
     "typescript": "^5.0.4"
   },
+  "files": ["dist/**/*"],
   "dependencies": {
     "dotenv": "^16.0.3"
   }

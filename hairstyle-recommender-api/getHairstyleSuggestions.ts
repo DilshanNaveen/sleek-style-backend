@@ -1,12 +1,12 @@
 import { Handler } from "aws-lambda";
-import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
-import { dynamoDBPutItem } from "./utils/dbUtils";
-import { getObject, getPreSignedUrl, getSuggestions } from "./utils/s3Utils";
-import { HairstyleSuggestion, HairstyleSuggestionResolvedPromise, HairstyleSuggestionResponse } from "./types/hairstyle";
-import { Gender, UserData, UserDataStatus } from "./types/userData";
 import axios from "axios";
 import FormData from "form-data";
-import { getUserData } from "./utils/userUtils";
+import { HairstyleSuggestion, HairstyleSuggestionResolvedPromise, HairstyleSuggestionResponse } from "sleek-style-util/dist/types/hairstyle";
+import { UserData, UserDataStatus, Gender } from "sleek-style-util/dist/types/userData";
+import { dynamoDBPutItem } from "sleek-style-util/dist/utils/dbUtils";
+import { getSuccessResponse, getErrorResponse } from "sleek-style-util/dist/utils/responseUtil";
+import { getObject, getSuggestions, getPreSignedUrl } from "sleek-style-util/dist/utils/s3Utils";
+import { getUserData } from "sleek-style-util/dist/utils/userUtils";
 const { v4: uuidv4 } = require('uuid');
 
 type queryStringParameters = {
@@ -23,10 +23,12 @@ const saveUserData = async (userData: UserData, faceShape: string, suggestions: 
     suggestedHairstyles: suggestions,
     lastModifiedDate: new Date().toISOString()
   }
+  if (!process.env.DYNAMODB_TABLE_USER_DATA) throw new Error("DynamoDB table not found");
   await dynamoDBPutItem(process.env.DYNAMODB_TABLE_USER_DATA, payload);
 }
 
 const predictFaceShape = async (gender: Gender, key: string) => {
+  if (!process.env.S3_BUCKET_USER_DATA) throw new Error("S3 Bucket not found");
   const res = await getObject(process.env.S3_BUCKET_USER_DATA, key);
   // // Convert file to FormData
   const formData = new FormData();

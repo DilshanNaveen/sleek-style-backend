@@ -1,8 +1,8 @@
-import { UserData, CustomizationSettings, UserDataStatus } from "./types/userData";
-import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
-import { getPreSignedUrl, S3_METHODS } from "./utils/s3Utils";
 import { Handler } from "aws-lambda";
-import { dynamoDBPutItem } from './utils/dbUtils';
+import { CustomizationSettings, UserData, UserDataStatus } from "sleek-style-util/dist/types/userData";
+import { dynamoDBPutItem } from "sleek-style-util/dist/utils/dbUtils";
+import { getSuccessResponse, getErrorResponse } from "sleek-style-util/dist/utils/responseUtil";
+import { getPreSignedUrl, S3_METHODS } from "sleek-style-util/dist/utils/s3Utils";
 const { v4: uuidv4 } = require('uuid');
 
 const saveUserData = async (id: string, fileName: string, customizationSettings: CustomizationSettings) => {
@@ -14,6 +14,7 @@ const saveUserData = async (id: string, fileName: string, customizationSettings:
     customizationSettings: customizationSettings,
     lastModifiedDate: new Date().toISOString()
   }
+  if (!process.env.DYNAMODB_TABLE_USER_DATA) throw new Error("DynamoDB table not found");
   await dynamoDBPutItem(process.env.DYNAMODB_TABLE_USER_DATA, payload);
   return payload.id;
 }

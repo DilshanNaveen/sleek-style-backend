@@ -1,6 +1,6 @@
-export * from './types/hairstyle';
-export * from './types/userData';
-export * from './utils/dbUtils';
-export * from './utils/responseUtil';
-export * from './utils/userUtils';
-export * from './utils/s3Utils';
+export * as hairstyle from './types/hairstyle';
+export * as userData from './types/userData';
+export * as dbUtils from './utils/dbUtils';
+export * as responseUtil from './utils/responseUtil';
+export * as userUtils from './utils/userUtils';
+export * as s3Utils from './utils/s3Utils';
