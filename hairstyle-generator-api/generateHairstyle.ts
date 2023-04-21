@@ -56,6 +56,7 @@ const validateUserData = async (userData: UserData, appearanceImageId: string): 
 
 const saveLog = async (id: string, log: any) => {
   console.log("saving log :", log);
+  if (!process.env.S3_BUCKET_USER_DATA) throw new Error("S3_BUCKET_USER_DATA is not defined.");
   await putObject(
     process.env.S3_BUCKET_USER_DATA,
     `${id}/log/${log?.status || "error"}_log.json`,
