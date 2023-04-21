@@ -1,11 +1,12 @@
 import { Handler } from "aws-lambda";
 import { getSuccessResponse, getErrorResponse } from "./utils/responseUtil";
-import { dynamoDBPutItem, dynamoDBQuery } from "./utils/dbUtils";
+import { dynamoDBPutItem } from "./utils/dbUtils";
 import { getObject, getPreSignedUrl, getSuggestions } from "./utils/s3Utils";
 import { HairstyleSuggestion, HairstyleSuggestionResolvedPromise, HairstyleSuggestionResponse } from "./types/hairstyle";
-import { UserData, UserDataStatus } from "./types/userData";
+import { Gender, UserData, UserDataStatus } from "./types/userData";
 import axios from "axios";
 import FormData from "form-data";
+import { getUserData } from "./utils/userUtils";
 const { v4: uuidv4 } = require('uuid');
 
 type queryStringParameters = {
@@ -25,7 +26,7 @@ const saveUserData = async (userData: UserData, faceShape: string, suggestions: 
   await dynamoDBPutItem(process.env.DYNAMODB_TABLE_USER_DATA, payload);
 }
 
-const predictFaceShape = async (key: string) => {
+const predictFaceShape = async (gender: Gender, key: string) => {
   const res = await getObject(process.env.S3_BUCKET_USER_DATA, key);
   // // Convert file to FormData
   const formData = new FormData();
@@ -33,7 +34,9 @@ const predictFaceShape = async (key: string) => {
   // // Set Content-Type header based on file type
   const contentType = 'image/png'; // Change as necessary
   formData.append('Content-Type', contentType);
-  const result = await axios.post(process.env.FACE_SHAPE_PREDICTOR_API as string, formData, {
+  const url: string | undefined = gender === Gender.MALE ? process.env.FACE_SHAPE_PREDICTOR_MALE_API : process.env.FACE_SHAPE_PREDICTOR_FEMALE_API;
+  if (!url) throw new Error("Face shape predictor API not found");
+  const result = await axios.post(url, formData, {
       headers: {
           'Content-Type': 'multipart/form-data',
       },
@@ -44,9 +47,10 @@ const predictFaceShape = async (key: string) => {
 export const get: Handler = async (event: any) => {
   try {
     const { id, limit = 5 }: queryStringParameters = event.queryStringParameters;
-    const [userData] = await dynamoDBQuery(process.env.DYNAMODB_TABLE_USER_DATA, "id", id);
+    const userData = await getUserData(id);
     console.log("userData :", userData);
-    const faceShape = await predictFaceShape(userData.image);
+    if (!userData.image) throw new Error("User image not found");
+    const faceShape = await predictFaceShape(userData.customizationSettings.gender, userData.image);
     console.log(faceShape);
     const { Contents } = await getSuggestions(userData.customizationSettings, faceShape, limit);
     const promises = Contents.map(async (item) => {
