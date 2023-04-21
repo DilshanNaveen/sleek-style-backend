@@ -1,6 +1,6 @@
 import { Handler } from "aws-lambda";
-import { getBooleanResponse, getErrorResponse } from './utils/responseUtil';
-import { updateUserData } from "./utils/userUtils";
+import { getBooleanResponse, getErrorResponse } from "sleek-style-util/dist/utils/responseUtil";
+import { updateUserData } from "sleek-style-util/dist/utils/userUtils";
 
 type queryStringParameters = {
   id: string;

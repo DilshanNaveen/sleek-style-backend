@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,14 +47,57 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserData = void 0;
+exports.getUserData = exports.saveUserImageData = exports.updateUserData = void 0;
 var dbUtils_1 = require("./dbUtils");
+var axios_1 = require("axios");
+var s3Utils_1 = require("./s3Utils");
+function updateUserData(id, userData) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!process.env.DYNAMODB_TABLE_USER_DATA)
+                        throw new Error("DynamoDB table not found");
+                    return [4 /*yield*/, (0, dbUtils_1.dynamoDBUpdateItem)(process.env.DYNAMODB_TABLE_USER_DATA, "id", id, undefined, undefined, __assign({ lastModifiedDate: new Date().toISOString() }, userData))];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.updateUserData = updateUserData;
+;
+function saveUserImageData(key, imageUrl) {
+    return __awaiter(this, void 0, void 0, function () {
+        var imageResponse, imageData;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, axios_1.default.get(imageUrl, {
+                        responseType: "arraybuffer",
+                    })];
+                case 1:
+                    imageResponse = _a.sent();
+                    console.log("imageResponse :", imageResponse);
+                    imageData = imageResponse.data;
+                    console.log("imageData :", imageData);
+                    if (!process.env.S3_BUCKET_USER_DATA)
+                        throw new Error("S3 bucket not found");
+                    return [4 /*yield*/, (0, s3Utils_1.putObject)(process.env.S3_BUCKET_USER_DATA, key, imageData)];
+                case 2: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.saveUserImageData = saveUserImageData;
+;
 function getUserData(id) {
     return __awaiter(this, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, dbUtils_1.dynamoDBGetItem)(process.env.DYNAMODB_TABLE_USER_DATA, "id", id)];
+                case 0:
+                    if (!process.env.DYNAMODB_TABLE_USER_DATA)
+                        throw new Error("DynamoDB table not found");
+                    return [4 /*yield*/, (0, dbUtils_1.dynamoDBGetItem)(process.env.DYNAMODB_TABLE_USER_DATA, "id", id)];
                 case 1:
                     response = _a.sent();
                     console.log("response :", response);

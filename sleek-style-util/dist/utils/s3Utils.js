@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getObject = exports.getSuggestions = exports.getPreSignedUrl = exports.getS3Method = exports.S3_METHODS = void 0;
+exports.putObject = exports.getObject = exports.getSuggestions = exports.getPreSignedUrl = exports.getS3Method = exports.S3_METHODS = void 0;
 var _a = require("@aws-sdk/client-s3"), S3Client = _a.S3Client, PutObjectCommand = _a.PutObjectCommand, GetObjectCommand = _a.GetObjectCommand, ListObjectsCommand = _a.ListObjectsCommand;
 var s3_request_presigner_1 = require("@aws-sdk/s3-request-presigner");
 exports.S3_METHODS = {
@@ -121,4 +121,28 @@ function getObject(bucket, key) {
     });
 }
 exports.getObject = getObject;
+;
+function putObject(bucket, key, payload, contentType) {
+    if (contentType === void 0) { contentType = "image/png"; }
+    return __awaiter(this, void 0, void 0, function () {
+        var s3Client, putObjectCommand, response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    s3Client = new S3Client({});
+                    putObjectCommand = new PutObjectCommand({
+                        Bucket: bucket,
+                        Key: key,
+                        Body: payload,
+                        ContentType: contentType,
+                    });
+                    return [4 /*yield*/, s3Client.send(putObjectCommand)];
+                case 1:
+                    response = _a.sent();
+                    return [2 /*return*/, response];
+            }
+        });
+    });
+}
+exports.putObject = putObject;
 ;

@@ -1,9 +1,9 @@
 import { Handler } from "aws-lambda";
-import { UserDataStatus } from "./types/userData";
-import { getUserData, updateUserData } from "./utils/userUtils";
-import { putObject } from "./utils/s3Utils";
 import axios from "axios";
-import { getBooleanResponse, getErrorResponse } from "./utils/responseUtil";
+import { UserDataStatus } from "sleek-style-util/dist/types/userData";
+import { getBooleanResponse, getErrorResponse } from "sleek-style-util/dist/utils/responseUtil";
+import { putObject } from "sleek-style-util/dist/utils/s3Utils";
+import { getUserData, updateUserData } from "sleek-style-util/dist/utils/userUtils";
 
 type queryStringParameters = {
   id: string;

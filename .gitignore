@@ -8,4 +8,5 @@ jspm_packages
 .webpackCache
 
 dist
-sleek-style-util/dist/index.js
+.env
+sleek-style-util/.env

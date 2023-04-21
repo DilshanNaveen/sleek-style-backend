@@ -1,10 +1,10 @@
 import { Handler } from "aws-lambda";
-import { getErrorResponse, getBooleanResponse } from "./utils/responseUtil";
-import { S3_METHODS, getPreSignedUrl, putObject } from "./utils/s3Utils";
-import { HairstyleSuggestion } from "./types/hairstyle";
 import axios from "axios";
-import { UserData, UserDataStatus } from "./types/userData";
-import { getUserData, saveUserImageData, updateUserData } from "./utils/userUtils";
+import { HairstyleSuggestion } from "sleek-style-util/dist/types/hairstyle";
+import { UserData, UserDataStatus } from "sleek-style-util/dist/types/userData";
+import { getBooleanResponse, getErrorResponse } from "sleek-style-util/dist/utils/responseUtil";
+import { putObject, getPreSignedUrl, S3_METHODS } from "sleek-style-util/dist/utils/s3Utils";
+import { saveUserImageData, updateUserData, getUserData } from "sleek-style-util/dist/utils/userUtils";
 
 type queryStringParameters = {
   id: string;

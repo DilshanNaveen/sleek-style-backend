@@ -56,3 +56,17 @@ export async function getObject(bucket: string, key: string) {
     const response = await s3Client.send(command);
     return response;
 };
+
+export async function putObject(bucket: string, key: string, payload: any, contentType: string  = "image/png") {
+    const s3Client = new S3Client({});
+
+    const putObjectCommand = new PutObjectCommand({
+        Bucket: bucket,
+        Key: key,
+        Body: payload,
+        ContentType: contentType,
+    });
+
+    const response = await s3Client.send(putObjectCommand);
+    return response;
+};
