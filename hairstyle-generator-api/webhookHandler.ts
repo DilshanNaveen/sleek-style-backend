@@ -1,7 +1,7 @@
 import { Handler } from "aws-lambda";
-import { UserDataStatus } from "./types/userData";
-import { saveUserImageData, updateUserData } from "./utils/userUtils";
-import { putObject } from "./utils/s3Utils";
+import { UserDataStatus } from "sleek-style-util/dist/types/userData";
+import { putObject } from "sleek-style-util/dist/utils/s3Utils";
+import { saveUserImageData, updateUserData } from "sleek-style-util/dist/utils/userUtils";
 
 type queryStringParameters = {
   id: string;
@@ -14,6 +14,7 @@ export const post: Handler = async (event: any, _, callback: any) => {
     const { output, status } = JSON.parse(event.body);
     console.log("output :", output);
     console.log("Saving log...");
+    if (process.env.S3_BUCKET_USER_DATA === undefined) throw new Error("S3_BUCKET_USER_DATA is undefined.");
     await putObject(
       process.env.S3_BUCKET_USER_DATA,
       `${id}/log/${status || "error"}_log.json`,
