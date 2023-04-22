@@ -80,8 +80,6 @@ functions:
       - http:
           path: /handle-webhook
           method: post
-          private: true
-          apiKeyRequired: true
     iamRoleStatementsName: ${self:app}-${self:service}-handle-webhook
     iamRoleStatements:
       - Effect: "Allow"
