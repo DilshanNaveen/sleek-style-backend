@@ -1,1 +1,0 @@
-cog predict -i image=@input.jpg
