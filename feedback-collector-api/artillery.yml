@@ -1,0 +1,19 @@
+config:
+  target: "https://ev123f1nqh.execute-api.ap-southeast-1.amazonaws.com/prod"
+  phases:
+    - duration: 300
+      arrivalRate: 20
+  defaults:
+    headers:
+      x-api-key: "P1c3Jt0WR83WxEOyUK8be4cIonzwSmUU5cWWbYY7"
+      Content-Type: "application/json"
+scenarios:
+  - name: "POST request to save-feedback"
+    flow:
+      - post:
+          url: "/save-feedback?id=e6d5a64d-05f7-4c91-b69f-39f96dd563f9"
+          json:
+            comments: "Best of the best"
+            generatedHairstyle: 5
+            hairstyleSuggestions: 5
+            overallExperience: 5
