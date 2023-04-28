@@ -1,23 +1,64 @@
-# Sleek-Style-Util
-Sleek-Style-Util is an NPM package that provides utility functions and TypeScript types for the Sleek Style project. The package includes functions for interacting with Amazon DynamoDB and Amazon S3, as well as functions for formatting API responses and user authentication and authorization.
+# SleekStyle Backend
 
-## Installation
-Use the package manager npm to install Sleek-Style-Util.
+This is a serverless-based AWS Lambda repo for the SleekStyle project. It allows you to easily deploy and run the SleekStyle application on the AWS platform.
+
+## Prerequisites
+
+To deploy this serverless project, you'll need the following:
+
+- An AWS account with the necessary permissions to create Lambda functions, API Gateway, and DynamoDB tables.
+- AWS CLI installed on your local machine
+- Node.js installed on your local machine
+
+## Deploying the Serverless Code
+
+To deploy the serverless code for SleekStyle, follow these steps:
+
+1. Clone the repository to your local machine:
 ```
-$ npm install sleek-style-util
+https://github.com/DilshanNaveen/sleek-style-backend.git
 ```
 
-## Usage
+2. Navigate to the `sleek-style-backend` directory:
+```
+cd sleek-style-backend
+```
 
-To use Sleek-Style-Util, you need to import the required utility functions and TypeScript types in your project.
+3. Install the dependencies (use node 18):
+```
+npm install
+```
+4. Deploy the serverless stack to AWS:
+```
+sls deploy -r ap-southeast-1
+```
 
-### Importing Modules
+5. Once the deployment is complete, you should see the URLs for the API Gateway endpoints in the console. You can use these URLs to test the application.
 
-Sleek-Style-Util provides the following modules:
+## Project Structure
 
-- `hairstyle`: TypeScript types related to hairstyle recommendations, such as the `Hairstyle` and `HairstyleOptions` types.
-- `userData`: TypeScript types related to user data, such as the `User` and `UserProfile` types.
-- `dbUtils`: Utility functions related to interacting with Amazon DynamoDB, such as `scanTable` and `putItem`.
-- `responseUtil`: Utility functions related to formatting API responses, such as `success` and `error`.
-- `userUtils`: Utility functions related to user authentication and authorization, such as `generateAuthToken` and `validateAuthToken`.
-- `s3Utils`: Utility functions related to interacting with Amazon S3, such as `uploadFile` and `getFile`.
+The SleekStyle serverless project has the following structure:
+
+- `utils` - Contains the util functions of the service.
+- `types` - Contains the types of the objects.
+- `serverless.yml` - Contains the configuration for the serverless stack, including the AWS resources to be deployed.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contributors
+
+- Dilshan Naveen dilshan@vertex.lk
+
+## Acknowledgments
+
+- Thanks to the AWS team for creating such a powerful platform!
+- Thanks to the Serverless Framework for making serverless development so easy!
+- Thanks to the creators of the SleekStyle project for inspiring us to build this application!
+
+## Contact
+
+If you have any questions or comments about this project, please feel free to reach out to me at dilshan@vertex.lk.
+
+
