@@ -34,7 +34,7 @@ const predictFaceShape = async (gender: Gender, key: string) => {
   const formData = new FormData();
   formData.append('file', res.Body, key);
   // // Set Content-Type header based on file type
-  const contentType = 'image/png'; // Change as necessary
+  const contentType = 'image/png';
   formData.append('Content-Type', contentType);
   const url: string | undefined = gender === Gender.MALE ? process.env.FACE_SHAPE_PREDICTOR_MALE_API : process.env.FACE_SHAPE_PREDICTOR_FEMALE_API;
   if (!url) throw new Error("Face shape predictor API not found");

@@ -11,8 +11,6 @@ package:
 plugins:
   - serverless-iam-roles-per-function
   - serverless-webpack
-  # - serverless-domain-manager
-
 custom:
   webpack:
     webpackConfig: 'webpack.config.js'
@@ -26,6 +24,7 @@ provider:
   runtime: nodejs18.x
   environment:
     DYNAMODB_TABLE_USER_DATA: ${param:DYNAMODB_TABLE_USER_DATA}
+    API_KEY: ${param:API_KEY}
   logRetentionInDays: 1
   apiGateway:
     shouldStartNameWithService: true

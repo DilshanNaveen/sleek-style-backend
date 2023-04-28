@@ -31,6 +31,12 @@ export type CustomizationSettings = {
     hairLength: HairLength;
     hairType: HairType;
 };
+export type Feedback = {
+    comments: string;
+    generatedHairstyle: number;
+    hairstyleSuggestions: number;
+    overallExperience: number;
+};
 export type UserData = {
     id: string;
     date: string;
@@ -42,4 +48,5 @@ export type UserData = {
     generatedHairstyle?: string[] | string;
     generatorId?: string;
     lastModifiedDate: string;
+    feedback?: Feedback;
 };

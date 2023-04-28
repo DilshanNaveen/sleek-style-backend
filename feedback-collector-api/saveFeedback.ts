@@ -1,4 +1,5 @@
 import { Handler } from "aws-lambda";
+import { Feedback } from "sleek-style-util/dist/types/userData";
 import { getBooleanResponse, getErrorResponse } from "sleek-style-util/dist/utils/responseUtil";
 import { updateUserData } from "sleek-style-util/dist/utils/userUtils";
 
@@ -9,7 +10,7 @@ type queryStringParameters = {
 export const post: Handler = async (event: any) => {
   try {
     const { id }: queryStringParameters = event.queryStringParameters;
-    const feedback = JSON.parse(event.body);
+    const feedback: Feedback = JSON.parse(event.body);
     console.log("feedback", feedback);
     await updateUserData(id, { feedback });
     return getBooleanResponse(true);

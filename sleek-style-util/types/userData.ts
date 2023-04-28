@@ -8,35 +8,42 @@ export enum UserDataStatus {
     START_GENERATING_HAIRSTYLE,
     HAIRSTYLE_GENERATED,
     GENERATOR_CANCELED
-}
+};
 
 export enum Gender {
     MALE = "male",
     FEMALE = "female"
-}
+};
 
 export enum HairColor {
     RED = 'red',
     BLACK = 'black'
-}
+};
 
 export enum HairLength {
     SHORT = 'short',
     LONG = 'long'
-}
+};
 
 export enum HairType {
     STRAIGHT = 'straight',
     CURLY = 'curly',
     WAVY = 'wavy'
-}
+};
 
 export type CustomizationSettings = {
     gender: Gender,
     hairColor: HairColor,
     hairLength: HairLength,
     hairType: HairType
-}
+};
+
+export type Feedback = {
+    comments: string;
+    generatedHairstyle: number;
+    hairstyleSuggestions: number;
+    overallExperience: number;
+};
 
 export type UserData = {
     id: string,
@@ -48,5 +55,6 @@ export type UserData = {
     suggestedHairstyles?: HairstyleSuggestion[],
     generatedHairstyle?: string[] | string,
     generatorId?: string,
-    lastModifiedDate: string
-}
+    lastModifiedDate: string,
+    feedback?: Feedback
+};
