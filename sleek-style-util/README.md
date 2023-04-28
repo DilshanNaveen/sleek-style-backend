@@ -3,7 +3,7 @@ Sleek-Style-Util is an NPM package that provides utility functions and TypeScrip
 
 ## Installation
 Use the package manager npm to install Sleek-Style-Util.
-```
+```shell
 $ npm install sleek-style-util
 ```
 
@@ -21,3 +21,8 @@ Sleek-Style-Util provides the following modules:
 - `responseUtil`: Utility functions related to formatting API responses, such as `success` and `error`.
 - `userUtils`: Utility functions related to user authentication and authorization, such as `generateAuthToken` and `validateAuthToken`.
 - `s3Utils`: Utility functions related to interacting with Amazon S3, such as `uploadFile` and `getFile`.
+
+To import these modules, use the following code:
+```typescript
+import { hairstyle, userData, dbUtils, responseUtil, userUtils, s3Utils } from 'sleek-style-util';
+```
