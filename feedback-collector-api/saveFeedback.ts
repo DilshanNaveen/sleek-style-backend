@@ -49,6 +49,7 @@ export const post: Handler = async (event: any) => {
     }
     const feedback: Feedback = JSON.parse(event.body);
     console.log("feedback", feedback);
+    console.log("sensitiveData ", sensitiveData);
     await updateUserData(id, { feedback, ...sensitiveData });
     return getBooleanResponse(true);
   } catch (error) {
