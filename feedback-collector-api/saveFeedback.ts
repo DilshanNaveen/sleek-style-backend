@@ -29,6 +29,7 @@ const validateQueryStringParameters = (params: queryStringParameters) => {
   if (params.saveData !== undefined && typeof Boolean(params.saveData) !== "boolean") {
     throw new Error("Invalid 'saveData' parameter");
   }
+  console.log("params", params);
   return { id: params.id, saveData: Boolean(params.saveData) };
 };
 
@@ -42,6 +43,7 @@ export const post: Handler = async (event: any) => {
 
     let sensitiveData = {};
     if (!saveData) {
+      console.log("saveData is false")
       sensitiveData = await deleteSensitiveData(id);
     }
     const feedback: Feedback = JSON.parse(event.body);
