@@ -26,15 +26,16 @@ const validateQueryStringParameters = (params: queryStringParameters) => {
   if (!params.id || typeof params.id !== "string") {
     throw new Error("Invalid 'id' parameter");
   }
-  if (params.saveData !== undefined && typeof params.saveData !== "boolean") {
+  if (params.saveData !== undefined && typeof Boolean(params.saveData) !== "boolean") {
     throw new Error("Invalid 'saveData' parameter");
   }
+  return { id: params.id, saveData: Boolean(params.saveData) };
 };
 
 export const post: Handler = async (event: any) => {
   try {
-    // validateQueryStringParameters(event.queryStringParameters);
-    const { id, saveData }: queryStringParameters = event.queryStringParameters;
+    const { id, saveData } = validateQueryStringParameters(event.queryStringParameters);
+    // const { id, saveData }: queryStringParameters = event.queryStringParameters;
     console.log("id", id);
     console.log("saveData", saveData);
     console.log("saveData type ", typeof saveData);
