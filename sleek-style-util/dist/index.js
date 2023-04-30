@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.s3Utils = exports.userUtils = exports.responseUtil = exports.dbUtils = exports.userData = exports.hairstyle = void 0;
+exports.commonUtils = exports.s3Utils = exports.userUtils = exports.responseUtil = exports.dbUtils = exports.userData = exports.hairstyle = void 0;
 require('dotenv').config();
 exports.hairstyle = __importStar(require("./types/hairstyle"));
 exports.userData = __importStar(require("./types/userData"));
@@ -31,3 +31,4 @@ exports.dbUtils = __importStar(require("./utils/dbUtils"));
 exports.responseUtil = __importStar(require("./utils/responseUtil"));
 exports.userUtils = __importStar(require("./utils/userUtils"));
 exports.s3Utils = __importStar(require("./utils/s3Utils"));
+exports.commonUtils = __importStar(require("./utils/commonUtils"));

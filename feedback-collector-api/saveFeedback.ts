@@ -1,5 +1,6 @@
 import { Handler } from "aws-lambda";
 import { Feedback, UserData } from "sleek-style-util/dist/types/userData";
+import { parseBoolean } from "sleek-style-util/dist/utils/commonUtils";
 import { getBooleanResponse, getErrorResponse } from "sleek-style-util/dist/utils/responseUtil";
 import { deleteFiles } from "sleek-style-util/dist/utils/s3Utils";
 import { getUserData, updateUserData } from 'sleek-style-util/dist/utils/userUtils';
@@ -30,7 +31,7 @@ const validateQueryStringParameters = (params: queryStringParameters) => {
     throw new Error("Invalid 'saveData' parameter");
   }
   console.log("params", params);
-  return { id: params.id, saveData: Boolean(params.saveData) };
+  return { id: params.id, saveData: parseBoolean(String(params.saveData)) };
 };
 
 export const post: Handler = async (event: any) => {
