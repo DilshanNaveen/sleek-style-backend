@@ -13,7 +13,8 @@ export const get: Handler = async (event: any) => {
     const { id }: queryStringParameters = event.queryStringParameters;
     let { generatorId, customizationSettings, faceShape, generatedHairstyle, status }: UserData = await getUserData(id);
     let output: any = generatedHairstyle;
-    if (!generatedHairstyle) {
+    console.log("output :", output);
+    if (!output) {
       const result = await axios({
         method: "get",
         maxBodyLength: Infinity,
