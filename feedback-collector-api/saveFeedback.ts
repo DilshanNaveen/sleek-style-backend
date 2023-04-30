@@ -1,14 +1,8 @@
 import { Handler } from "aws-lambda";
 import { Feedback, UserData } from "sleek-style-util/dist/types/userData";
-import { parseBoolean } from "sleek-style-util/dist/utils/commonUtils";
 import { getBooleanResponse, getErrorResponse } from "sleek-style-util/dist/utils/responseUtil";
 import { deleteFiles } from "sleek-style-util/dist/utils/s3Utils";
 import { getUserData, updateUserData } from 'sleek-style-util/dist/utils/userUtils';
-
-type queryStringParameters = {
-  id: string;
-  saveData: boolean
-};
 
 const flag: string = "DELETED_BY_THE_USER";
 
@@ -23,7 +17,7 @@ const deleteSensitiveData = async (id: string) => {
   return { image: flag, input: { appearance_image: flag, identity_image: flag }, generatedHairstyle: flag };
 };
 
-const validateQueryStringParameters = (params: queryStringParameters) => {
+const validateQueryStringParameters = (params) => {
   if (!params.id || typeof params.id !== "string") {
     throw new Error("Invalid 'id' parameter");
   }
@@ -31,7 +25,7 @@ const validateQueryStringParameters = (params: queryStringParameters) => {
     throw new Error("Invalid 'saveData' parameter");
   }
   console.log("params", params);
-  return { id: params.id, saveData: parseBoolean(String(params.saveData)) };
+  return { id: params.id, saveData: params.saveData };
 };
 
 export const post: Handler = async (event: any) => {
@@ -39,7 +33,7 @@ export const post: Handler = async (event: any) => {
     const { id, saveData } = validateQueryStringParameters(event.queryStringParameters);
 
     let sensitiveData = {};
-    if (!saveData) {
+    if (saveData === "false") {
       console.log("saveData is false")
       sensitiveData = await deleteSensitiveData(id);
     }
