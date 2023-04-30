@@ -30,7 +30,7 @@ jobs:
       run: npm install
       working-directory: ./feedback-collector-api
 
-    - name: Serverless deploy hairstyle recommender
+    - name: Serverless deploy feedback collector
       uses: serverless/github-action@v3.1
       with:
         args: -c "cd ./feedback-collector-api && sls deploy -s prod -r ap-southeast-1"
