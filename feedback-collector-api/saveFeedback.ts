@@ -37,6 +37,7 @@ export const post: Handler = async (event: any) => {
     const { id, saveData }: queryStringParameters = event.queryStringParameters;
     console.log("id", id);
     console.log("saveData", saveData);
+    console.log("saveData type ", typeof saveData);
 
     let sensitiveData = {};
     if (!saveData) {
