@@ -32,9 +32,9 @@ export enum HairType {
 };
 
 export type CustomizationSettings = {
-    gender: Gender,
-    hairColor: HairColor,
-    hairLength: HairLength,
+    gender: Gender;
+    hairColor: HairColor;
+    hairLength: HairLength;
     hairType: HairType
 };
 
@@ -45,16 +45,22 @@ export type Feedback = {
     overallExperience: number;
 };
 
+export type GeneratorInput = {
+    appearance_image?: string;
+    identity_image?: string;
+}
+
 export type UserData = {
-    id: string,
-    date: string,
-    image?: string,
-    status: UserDataStatus,
-    faceShape?: string,
-    customizationSettings: CustomizationSettings,
-    suggestedHairstyles?: HairstyleSuggestion[],
-    generatedHairstyle?: string[] | string,
-    generatorId?: string,
-    lastModifiedDate: string,
-    feedback?: Feedback
+    id: string;
+    date: string;
+    image?: string;
+    status: UserDataStatus;
+    faceShape?: string;
+    customizationSettings: CustomizationSettings;
+    suggestedHairstyles?: HairstyleSuggestion[];
+    generatedHairstyle?: string[] | string;
+    generatorId?: string;
+    lastModifiedDate: string;
+    feedback?: Feedback;
+    input?: GeneratorInput;
 };

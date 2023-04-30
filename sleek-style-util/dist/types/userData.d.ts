@@ -37,6 +37,10 @@ export type Feedback = {
     hairstyleSuggestions: number;
     overallExperience: number;
 };
+export type GeneratorInput = {
+    appearance_image?: string;
+    identity_image?: string;
+};
 export type UserData = {
     id: string;
     date: string;
@@ -49,4 +53,5 @@ export type UserData = {
     generatorId?: string;
     lastModifiedDate: string;
     feedback?: Feedback;
+    input?: GeneratorInput;
 };

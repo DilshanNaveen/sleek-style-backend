@@ -21,7 +21,7 @@
     "serverless-iam-roles-per-function": "^3.2.0",
     "serverless-offline": "^12.0.4",
     "serverless-plugin-typescript": "^2.1.2",
-    "sleek-style-util": "^1.0.5",
+    "sleek-style-util": "^1.0.6",
     "typescript": "^4.7.4",
     "uuid": "^9.0.0"
   },

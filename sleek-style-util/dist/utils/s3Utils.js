@@ -36,8 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putObject = exports.getObject = exports.getSuggestions = exports.getPreSignedUrl = exports.getS3Method = exports.S3_METHODS = void 0;
-var _a = require("@aws-sdk/client-s3"), S3Client = _a.S3Client, PutObjectCommand = _a.PutObjectCommand, GetObjectCommand = _a.GetObjectCommand, ListObjectsCommand = _a.ListObjectsCommand;
+exports.deleteFiles = exports.putObject = exports.getObject = exports.getSuggestions = exports.getPreSignedUrl = exports.getS3Method = exports.S3_METHODS = void 0;
+var _a = require("@aws-sdk/client-s3"), S3Client = _a.S3Client, PutObjectCommand = _a.PutObjectCommand, GetObjectCommand = _a.GetObjectCommand, ListObjectsCommand = _a.ListObjectsCommand, DeleteObjectsCommand = _a.DeleteObjectsCommand;
 var s3_request_presigner_1 = require("@aws-sdk/s3-request-presigner");
 exports.S3_METHODS = {
     get: 'getObject',
@@ -145,4 +145,25 @@ function putObject(bucket, key, payload, contentType) {
     });
 }
 exports.putObject = putObject;
+;
+function deleteFiles(bucket, keys) {
+    return __awaiter(this, void 0, void 0, function () {
+        var s3Client, deleteObjectsCommand;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    s3Client = new S3Client({});
+                    deleteObjectsCommand = new DeleteObjectsCommand({
+                        Bucket: bucket,
+                        Delete: {
+                            Objects: keys.map(function (key) { return ({ Key: key }); }),
+                        },
+                    });
+                    return [4 /*yield*/, s3Client.send(deleteObjectsCommand)];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.deleteFiles = deleteFiles;
 ;

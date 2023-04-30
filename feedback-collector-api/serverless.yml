@@ -24,6 +24,7 @@ provider:
   runtime: nodejs18.x
   environment:
     DYNAMODB_TABLE_USER_DATA: ${param:DYNAMODB_TABLE_USER_DATA}
+    S3_BUCKET_USER_DATA: ${param:S3_BUCKET_USER_DATA}
     API_KEY: ${param:API_KEY}
   logRetentionInDays: 1
   apiGateway:
@@ -47,3 +48,8 @@ functions:
           - dynamodb:GetItem
         Resource: 
           Fn::Join: [ "", [ "arn:aws:dynamodb:", { Ref: "AWS::Region" }, ':', { Ref: "AWS::AccountId" }, ":table/${param:DYNAMODB_TABLE_USER_DATA}" ] ]
+      - Effect: "Allow"
+        Action:
+          - s3:DeleteObject
+        Resource: 
+          Fn::Join: ["", [ "arn:aws:s3:::", "${param:S3_BUCKET_USER_DATA}/*" ]]

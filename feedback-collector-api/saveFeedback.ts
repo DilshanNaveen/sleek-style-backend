@@ -1,18 +1,48 @@
 import { Handler } from "aws-lambda";
-import { Feedback } from "sleek-style-util/dist/types/userData";
+import { Feedback, UserData } from "sleek-style-util/dist/types/userData";
 import { getBooleanResponse, getErrorResponse } from "sleek-style-util/dist/utils/responseUtil";
-import { updateUserData } from "sleek-style-util/dist/utils/userUtils";
+import { deleteFiles } from "sleek-style-util/dist/utils/s3Utils";
+import { getUserData, updateUserData } from 'sleek-style-util/dist/utils/userUtils';
 
 type queryStringParameters = {
   id: string;
+  saveData: boolean
+};
+
+const flag: string = "DELETED_BY_THE_USER";
+
+const deleteSensitiveData = async (id: string) => {
+  console.log("Deleting sensitive data...");
+  const { image, input }: UserData = await getUserData(id);
+  const { appearance_image, identity_image }: any = input;
+  const sensitiveData: string[] = [image, appearance_image, identity_image ];
+  console.log("sensitiveData", sensitiveData);
+  deleteFiles(process.env.S3_BUCKET_USER_DATA as string, sensitiveData);
+  console.log("sensitive data deleted from S3");
+  return { image: flag, input: { appearance_image: flag, identity_image: flag } };
+};
+
+const validateQueryStringParameters = (params: queryStringParameters) => {
+  if (!params.id || typeof params.id !== "string") {
+    throw new Error("Invalid 'id' parameter");
+  }
+  if (params.saveData !== undefined && typeof params.saveData !== "boolean") {
+    throw new Error("Invalid 'saveData' parameter");
+  }
 };
 
 export const post: Handler = async (event: any) => {
   try {
-    const { id }: queryStringParameters = event.queryStringParameters;
+    validateQueryStringParameters(event.queryStringParameters);
+    const { id, saveData }: queryStringParameters = event.queryStringParameters;
+
+    let sensitiveData = {};
+    if (!saveData) {
+      sensitiveData = await deleteSensitiveData(id);
+    }
     const feedback: Feedback = JSON.parse(event.body);
     console.log("feedback", feedback);
-    await updateUserData(id, { feedback });
+    await updateUserData(id, { feedback, ...sensitiveData });
     return getBooleanResponse(true);
   } catch (error) {
     console.log("error", error);

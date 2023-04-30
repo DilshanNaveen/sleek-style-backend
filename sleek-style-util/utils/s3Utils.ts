@@ -1,4 +1,4 @@
-const { S3Client, PutObjectCommand, GetObjectCommand, ListObjectsCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand, GetObjectCommand, ListObjectsCommand, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { CustomizationSettings } from "../types/userData";
 
@@ -69,4 +69,20 @@ export async function putObject(bucket: string, key: string, payload: any, conte
 
     const response = await s3Client.send(putObjectCommand);
     return response;
+};
+
+export async function deleteFiles(
+    bucket: string,
+    keys: string[]
+) {
+    const s3Client = new S3Client({});
+
+    const deleteObjectsCommand = new DeleteObjectsCommand({
+        Bucket: bucket,
+        Delete: {
+            Objects: keys.map((key) => ({ Key: key })),
+        },
+    });
+
+    return await s3Client.send(deleteObjectsCommand);
 };

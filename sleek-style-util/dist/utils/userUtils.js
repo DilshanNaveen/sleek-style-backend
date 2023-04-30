@@ -46,10 +46,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserData = exports.saveUserImageData = exports.updateUserData = void 0;
 var dbUtils_1 = require("./dbUtils");
-var axios_1 = require("axios");
+var axios_1 = __importDefault(require("axios"));
 var s3Utils_1 = require("./s3Utils");
 function updateUserData(id, userData) {
     return __awaiter(this, void 0, void 0, function () {

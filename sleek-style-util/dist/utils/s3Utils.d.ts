@@ -5,3 +5,4 @@ export declare function getPreSignedUrl(bucket: any, key: string, method?: strin
 export declare const getSuggestions: (config: CustomizationSettings, faceShape: string, maxKeys?: number | undefined, version?: string | undefined) => Promise<any>;
 export declare function getObject(bucket: string, key: string): Promise<any>;
 export declare function putObject(bucket: string, key: string, payload: any, contentType?: string): Promise<any>;
+export declare function deleteFiles(bucket: string, keys: string[]): Promise<any>;
