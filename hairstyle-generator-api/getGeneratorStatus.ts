@@ -2,6 +2,7 @@ import { Handler } from "aws-lambda";
 import axios from "axios";
 import { UserData, UserDataStatus } from "sleek-style-util/dist/types/userData";
 import { getSuccessResponse, getErrorResponse } from "sleek-style-util/dist/utils/responseUtil";
+import { getPreSignedUrl } from "sleek-style-util/dist/utils/s3Utils";
 import { getUserData } from "sleek-style-util/dist/utils/userUtils";
 
 type queryStringParameters = {
@@ -12,9 +13,11 @@ export const get: Handler = async (event: any) => {
   try {
     const { id }: queryStringParameters = event.queryStringParameters;
     let { generatorId, customizationSettings, faceShape, generatedHairstyle, status }: UserData = await getUserData(id);
-    let output: any = generatedHairstyle;
+    let output: any = undefined;
     console.log("output :", output);
-    if (!output) {
+    if (generatedHairstyle) {
+      output = await getPreSignedUrl(process.env.S3_BUCKET_USER_DATA, generatedHairstyle as string);
+    } else {
       const result = await axios({
         method: "get",
         maxBodyLength: Infinity,

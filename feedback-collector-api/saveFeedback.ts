@@ -13,13 +13,13 @@ const flag: string = "DELETED_BY_THE_USER";
 
 const deleteSensitiveData = async (id: string) => {
   console.log("Deleting sensitive data...");
-  const { image, input }: UserData = await getUserData(id);
+  const { image, input, generatedHairstyle }: UserData = await getUserData(id);
   const { appearance_image, identity_image }: any = input;
-  const sensitiveData: string[] = [image, appearance_image, identity_image ];
+  const sensitiveData: string[] = [image, appearance_image, identity_image, generatedHairstyle ];
   console.log("sensitiveData", sensitiveData);
   deleteFiles(process.env.S3_BUCKET_USER_DATA as string, sensitiveData);
   console.log("sensitive data deleted from S3");
-  return { image: flag, input: { appearance_image: flag, identity_image: flag } };
+  return { image: flag, input: { appearance_image: flag, identity_image: flag }, generatedHairstyle: flag };
 };
 
 const validateQueryStringParameters = (params: queryStringParameters) => {

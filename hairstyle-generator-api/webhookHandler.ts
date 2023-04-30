@@ -28,7 +28,7 @@ export const post: Handler = async (event: any, _, callback: any) => {
     console.log("output :", output);
     console.log("Saving user data...");
     await updateUserData(id, {
-      generatedImage: `${id}/generated_image.png`,
+      generatedHairstyle: `${id}/generated_image.png`,
       status: UserDataStatus.HAIRSTYLE_GENERATED,
     });
     console.log("Saved user data.");
