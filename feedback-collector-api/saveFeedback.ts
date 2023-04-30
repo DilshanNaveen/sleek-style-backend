@@ -33,8 +33,10 @@ const validateQueryStringParameters = (params: queryStringParameters) => {
 
 export const post: Handler = async (event: any) => {
   try {
-    validateQueryStringParameters(event.queryStringParameters);
+    // validateQueryStringParameters(event.queryStringParameters);
     const { id, saveData }: queryStringParameters = event.queryStringParameters;
+    console.log("id", id);
+    console.log("saveData", saveData);
 
     let sensitiveData = {};
     if (!saveData) {
